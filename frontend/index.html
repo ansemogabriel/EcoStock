@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoStock — Gestão inteligente. Consumo consciente.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="brand">
+      <span class="brand-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C7 2 4 6 4 11c0 5.5 4.5 9 8 11 3.5-2 8-5.5 8-11 0-5-3-9-8-9Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8v7M9 11h6" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </span>
+      EcoStock
+    </a>
+    <div class="nav-links">
+      <a href="#recursos">Recursos</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#telas">A plataforma</a>
+      <a href="#precos">Preços</a>
+      <a href="#faq">Dúvidas</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="nav-login" id="loginLink">Entrar</a>
+      <button class="btn btn-primary btn-sm" id="navCtaBtn">Começar grátis</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<div class="mobile-panel" id="mobilePanel">
+  <div class="mobile-panel-top">
+    <a href="#top" class="brand">
+      <span class="brand-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C7 2 4 6 4 11c0 5.5 4.5 9 8 11 3.5-2 8-5.5 8-11 0-5-3-9-8-9Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </span>
+      EcoStock
+    </a>
+    <button class="menu-toggle" id="menuClose" aria-label="Fechar menu" style="display:flex;">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <a href="#recursos" class="mp-link">Recursos</a>
+  <a href="#como-funciona" class="mp-link">Como funciona</a>
+  <a href="#telas" class="mp-link">A plataforma</a>
+  <a href="#precos" class="mp-link">Preços</a>
+  <a href="#faq" class="mp-link">Dúvidas</a>
+  <button class="btn btn-primary btn-block" id="mobileCtaBtn">Começar grátis</button>
+</div>
+
+<main id="top">
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow-tag"><span class="dot"></span> Usado por 1.200+ padarias e mercados no Brasil</span>
+      <h1>Menos desperdício.<br>Mais <em>lucro</em> na prateleira.</h1>
+      <p class="hero-sub">O EcoStock acompanha a validade de cada produto, avisa antes do vencimento e sugere a promoção certa — para você vender antes de perder.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="heroCtaBtn">Começar grátis por 14 dias</button>
+        <button class="btn btn-ghost" id="heroDemoBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M10 8.5l6 3.5-6 3.5v-7Z" fill="currentColor"/></svg>
+          Ver demonstração
+        </button>
+      </div>
+      <div class="hero-trust">
+        <div class="avatars">
+          <span>CH</span><span>MA</span><span>RS</span>
+        </div>
+        <span>Nota 4,9/5 entre donos de padaria e mercado</span>
+      </div>
+    </div>
+
+    <div class="mock-wrap">
+      <div class="mock-card">
+        <div class="mock-inner">
+          <div class="mock-topbar">
+            <div class="mock-brand"><span class="mock-dot"></span> EcoStock</div>
+            <span class="mock-bell"></span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-side">
+              <i class="active" style="width:70%"></i>
+              <i style="width:50%"></i>
+              <i style="width:60%"></i>
+              <i style="width:45%"></i>
+              <i style="width:55%"></i>
+            </div>
+            <div class="mock-main">
+              <div class="mock-stats">
+                <div class="mock-stat"><b>248</b><span>Produtos</span></div>
+                <div class="mock-stat"><b>16</b><span>Vencendo</span></div>
+                <div class="mock-stat"><b>R$1.240</b><span>Economia</span></div>
+              </div>
+              <div class="mock-row"><div class="left"><span class="swatch" style="background:var(--amber-100)"></span><div><span class="name">Iogurte Natural</span><br><span class="sub">Lote 20260901</span></div></div><span class="mock-badge badge-danger">1 dia</span></div>
+              <div class="mock-row"><div class="left"><span class="swatch" style="background:var(--green-100)"></span><div><span class="name">Pão Francês</span><br><span class="sub">Lote 01082026</span></div></div><span class="mock-badge badge-warn">2 dias</span></div>
+              <div class="mock-row"><div class="left"><span class="swatch" style="background:var(--terracotta-100)"></span><div><span class="name">Leite Integral 1L</span><br><span class="sub">Lote L12092026</span></div></div><span class="mock-badge badge-ok">5 dias</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-card float-1">
+        <span class="float-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><b>63 produtos</b><span>salvos este mês</span></div>
+      </div>
+      <div class="float-card float-2">
+        <span class="float-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <div><b>40% OFF</b><span>sugestão automática</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="stat-strip" style="padding:0;">
+  <div class="container">
+    <div class="stat-item"><b>R$ 1.240</b><span>economia média mensal por loja</span></div>
+    <div class="stat-item"><b>32%</b><span>menos perdas por vencimento</span></div>
+    <div class="stat-item"><b>14,45kg</b><span>de alimento salvo por semana</span></div>
+    <div class="stat-item"><b>4,9/5</b><span>avaliação de quem usa</span></div>
+  </div>
+</section>
+
+
+<section id="recursos">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">Recursos</span>
+      <h2>Tudo o que você precisa para parar de jogar dinheiro fora</h2>
+      <p>Do cadastro do lote ao relatório de perdas, o EcoStock cobre todo o ciclo de validade do seu estoque em um só lugar.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon fi-1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 011-1h6l2 2h6a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1Z" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Dashboard em tempo real</h3>
+        <p>Veja de relance quantos produtos vencem hoje, quanto valor está em risco e quanto você já economizou no mês.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Catálogo de produtos</h3>
+        <p>Organize por categoria, preço de custo e de venda, com edição rápida direto na lista.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2Z" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Lotes e validade</h3>
+        <p>Cadastre número do lote, data de entrada e validade — o sistema calcula os dias restantes automaticamente.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-4"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20Z" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Alertas de vencimento</h3>
+        <p>Notificações automáticas classificadas por urgência: 1 a 3 dias, 4 a 7 dias e mais de 7 dias.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 12l-7.5 7.5a2 2 0 01-2.8 0L4 13.8V4h9.8l6.2 6.2a2 2 0 010 2.8Z" stroke="currentColor" stroke-width="1.6"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/></svg></div>
+        <h3>Promoções automáticas</h3>
+        <p>Receba sugestões de desconto calculadas pelo tempo restante — você decide, ajusta e aplica em um clique.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Relatório de perdas</h3>
+        <p>Entenda o motivo de cada perda — vencido, danificado, excesso de estoque — e reduza o desperdício mês a mês.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona" style="background:var(--bg-alt);">
+  <div class="container">
+    <div class="section-head center">
+      <span class="tag">Como funciona</span>
+      <h2>Do cadastro ao controle total em três passos</h2>
+    </div>
+    <div class="how-wrap">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <h3>Cadastre seus produtos e lotes</h3>
+        <p>Importe sua planilha atual ou cadastre manualmente: nome, categoria, preços e data de validade de cada lote.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <h3>Receba alertas antes de perder</h3>
+        <p>O EcoStock avisa com dias de antecedência e sugere o desconto ideal para girar o produto a tempo.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <h3>Acompanhe a economia gerada</h3>
+        <p>Veja nos relatórios quanto deixou de perder, o que ainda precisa de atenção e onde ajustar o estoque.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="telas">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">A plataforma</span>
+      <h2>Uma tela para cada etapa do seu estoque</h2>
+      <p>Navegue pelas telas do EcoStock e veja como cada uma resolve um problema real do dia a dia.</p>
+    </div>
+
+    <div class="tabs" id="tabButtons">
+      <button class="tab-btn active" data-tab="dash">Dashboard</button>
+      <button class="tab-btn" data-tab="prod">Produtos</button>
+      <button class="tab-btn" data-tab="lote">Cadastro de lote</button>
+      <button class="tab-btn" data-tab="venc">Vencimentos</button>
+      <button class="tab-btn" data-tab="rel">Relatório de perdas</button>
+    </div>
+
+    <div class="tab-panel active" data-panel="dash">
+      <div class="tab-text">
+        <h3>Visão geral em segundos</h3>
+        <p>Ao abrir o EcoStock, você já sabe quantos produtos estão cadastrados, quantos vencem essa semana e quanto valor está em risco — sem precisar caçar informação em planilha.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Indicadores de produtos, vencimentos e perdas em cards</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Gráfico de perdas vs. recuperado no mês</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Principais motivos de perda em um clique</li>
+        </ul>
+      </div>
+      <div class="tab-visual">
+        <div class="mock-stats" style="grid-template-columns:repeat(2,1fr);gap:12px;">
+          <div class="mock-stat"><b>248</b><span>Produtos cadastrados</span></div>
+          <div class="mock-stat"><b>16</b><span>Próximos do vencimento</span></div>
+          <div class="mock-stat"><b>R$ 487,50</b><span>Valor em risco</span></div>
+          <div class="mock-stat"><b>63</b><span>Produtos salvos</span></div>
+        </div>
+        <div style="margin-top:14px;padding:16px;background:var(--bg-alt);border-radius:10px;">
+          <span style="font-size:11px;color:var(--ink-soft);font-weight:600;">RESUMO DO MÊS</span>
+          <div style="display:flex;align-items:flex-end;gap:5px;height:70px;margin-top:12px;">
+            <div style="width:8%;height:40%;background:var(--terracotta);border-radius:3px;"></div>
+            <div style="width:8%;height:60%;background:var(--green-500);border-radius:3px;"></div>
+            <div style="width:8%;height:30%;background:var(--terracotta);border-radius:3px;"></div>
+            <div style="width:8%;height:75%;background:var(--green-500);border-radius:3px;"></div>
+            <div style="width:8%;height:45%;background:var(--terracotta);border-radius:3px;"></div>
+            <div style="width:8%;height:85%;background:var(--green-500);border-radius:3px;"></div>
+            <div style="width:8%;height:55%;background:var(--terracotta);border-radius:3px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="prod">
+      <div class="tab-text">
+        <h3>Seu catálogo, sempre organizado</h3>
+        <p>Busque por nome ou categoria, veja preço de custo e venda lado a lado, e edite qualquer item sem sair da lista.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Filtro por categoria: padaria, laticínios, frios, bebidas</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cadastro rápido de novos produtos</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Margem calculada automaticamente</li>
+        </ul>
+      </div>
+      <div class="tab-visual">
+        <div class="mock-row"><div class="left"><span class="swatch" style="background:var(--amber-100)"></span><div><span class="name">Pão Francês</span><br><span class="sub">Padaria · R$ 0,35 → R$ 0,80</span></div></div></div>
+        <div class="mock-row"><div class="left"><span class="swatch" style="background:var(--green-100)"></span><div><span class="name">Leite Integral 1L</span><br><span class="sub">Laticínios · R$ 4,10 → R$ 5,49</span></div></div></div>
+        <div class="mock-row"><div class="left"><span class="swatch" style="background:var(--terracotta-100)"></span><div><span class="name">Iogurte Natural</span><br><span class="sub">Laticínios · R$ 3,20 → R$ 4,50</span></div></div></div>
+        <div class="mock-row"><div class="left"><span class="swatch" style="background:var(--amber-100)"></span><div><span class="name">Queijo Mussarela</span><br><span class="sub">Frios · R$ 28,00 → R$ 36,90</span></div></div></div>
+        <div class="mock-row"><div class="left"><span class="swatch" style="background:var(--green-100)"></span><div><span class="name">Suco de Laranja 1L</span><br><span class="sub">Bebidas · R$ 6,20 → R$ 8,90</span></div></div></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="lote">
+      <div class="tab-text">
+        <h3>Cadastro de lote em menos de um minuto</h3>
+        <p>Informe o produto, número do lote, quantidade e datas — o EcoStock calcula os dias restantes e já mostra o status de atenção.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cálculo automático dos dias para vencer</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Status visual: normal, atenção ou crítico</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Preço de custo por lote, para relatórios precisos</li>
+        </ul>
+      </div>
+      <div class="tab-visual">
+        <div style="padding:6px;">
+          <label style="font-size:11px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:5px;">PRODUTO</label>
+          <div style="padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:13px;margin-bottom:14px;">Iogurte Natural</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+            <div><label style="font-size:11px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:5px;">DATA DE ENTRADA</label><div style="padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:13px;">01/09/2026</div></div>
+            <div><label style="font-size:11px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:5px;">VALIDADE</label><div style="padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:13px;">10/09/2026</div></div>
+          </div>
+          <div style="background:var(--amber-100);border-radius:9px;padding:12px 14px;">
+            <b style="font-size:13px;color:var(--amber);">Dias para vencimento: 9 dias</b>
+            <div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px;">Status: Atenção</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="venc">
+      <div class="tab-text">
+        <h3>Nada vence sem você saber</h3>
+        <p>Filtre por urgência — de 1 a 3 dias, de 4 a 7 dias, ou mais de 7 dias — e aplique a sugestão de desconto direto na lista.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Sugestão de desconto por proximidade da validade</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Ação rápida para aplicar ou ajustar a promoção</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Filtros por faixa de dias restantes</li>
+        </ul>
+      </div>
+      <div class="tab-visual">
+        <div class="mock-row"><div class="left"><div><span class="name">Iogurte Natural</span><br><span class="sub">1 dia restante · 18 un</span></div></div><span class="mock-badge badge-danger">40% desc.</span></div>
+        <div class="mock-row"><div class="left"><div><span class="name">Pão Francês</span><br><span class="sub">2 dias restantes · 30 un</span></div></div><span class="mock-badge badge-warn">10% desc.</span></div>
+        <div class="mock-row"><div class="left"><div><span class="name">Leite Integral 1L</span><br><span class="sub">5 dias restantes · 12 un</span></div></div><span class="mock-badge badge-warn">15% desc.</span></div>
+        <div class="mock-row"><div class="left"><div><span class="name">Queijo Mussarela</span><br><span class="sub">11 dias restantes · 5 un</span></div></div><span class="mock-badge badge-ok">10% desc.</span></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" data-panel="rel">
+      <div class="tab-text">
+        <h3>Entenda para onde vai o desperdício</h3>
+        <p>Veja o valor e o peso perdido por período, os motivos mais comuns e o histórico completo — tudo exportável em um clique.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Perdas por motivo: vencido, danificado, excesso</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Filtro por período e por motivo</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Exportação do relatório completo</li>
+        </ul>
+      </div>
+      <div class="tab-visual">
+        <div class="mock-stats" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px;">
+          <div class="mock-stat"><b>25</b><span>Itens descartados</span></div>
+          <div class="mock-stat"><b>R$389</b><span>Valor perdido</span></div>
+          <div class="mock-stat"><b>12,45kg</b><span>Peso descartado</span></div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink-soft);margin-bottom:8px;">PERDAS POR MOTIVO</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="width:45%;height:9px;background:var(--terracotta);border-radius:5px;"></div><span style="font-size:11px;color:var(--ink-soft);">Vencido 45%</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;"><div style="width:30%;height:9px;background:var(--amber);border-radius:5px;"></div><span style="font-size:11px;color:var(--ink-soft);">Danificado 30%</span></div>
+        <div style="display:flex;align-items:center;gap:8px;"><div style="width:15%;height:9px;background:var(--green-500);border-radius:5px;"></div><span style="font-size:11px;color:var(--ink-soft);">Excesso de estoque 15%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-alt);">
+  <div class="container">
+    <div class="testi">
+      <div class="testi-avatar">CH</div>
+      <div>
+        <blockquote>"Em dois meses parei de jogar pão e laticínio no lixo toda semana. O alerta de vencimento sozinho já pagou a assinatura."</blockquote>
+        <cite><b>Carlos Henrique</b>Padaria Pão Bom, Sumaré · SP</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="precos">
+  <div class="container">
+    <div class="section-head center">
+      <span class="tag">Preços</span>
+      <h2>Um plano para cada tamanho de loja</h2>
+      <p>Comece grátis por 14 dias, sem cartão de crédito. Cancele quando quiser.</p>
+    </div>
+    <div style="text-align:center;">
+      <div class="price-toggle">
+        <button class="active" id="toggleMonthly">Mensal</button>
+        <button id="toggleYearly">Anual <span class="save-pill">-20%</span></button>
+      </div>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Essencial</h3>
+        <p class="plan-desc">Para quem está começando a organizar o estoque.</p>
+        <div class="price-amt"><span class="price-val" data-m="89" data-y="71">R$ 89</span><span>/mês</span></div>
+        <div class="price-period">até 300 produtos cadastrados</div>
+        <ul class="price-feat">
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Dashboard e catálogo de produtos</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Cadastro de lotes e validade</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Alertas de vencimento por e-mail</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 1 usuário</li>
+        </ul>
+        <button class="btn btn-ghost btn-block plan-btn" data-plan="Essencial">Começar grátis</button>
+      </div>
+      <div class="price-card featured">
+        <span class="plan-badge">Mais escolhido</span>
+        <h3>Profissional</h3>
+        <p class="plan-desc">Para padarias e mercados com estoque ativo.</p>
+        <div class="price-amt"><span class="price-val" data-m="179" data-y="143">R$ 179</span><span>/mês</span></div>
+        <div class="price-period">produtos ilimitados</div>
+        <ul class="price-feat">
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Tudo do plano Essencial</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Promoções automáticas por validade</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Relatório de perdas completo</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Alertas por WhatsApp</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Até 5 usuários</li>
+        </ul>
+        <button class="btn btn-light btn-block plan-btn" data-plan="Profissional">Começar grátis</button>
+      </div>
+      <div class="price-card">
+        <h3>Rede</h3>
+        <p class="plan-desc">Para redes com mais de uma unidade.</p>
+        <div class="price-amt"><span class="price-val" data-m="349" data-y="279">R$ 349</span><span>/mês</span></div>
+        <div class="price-period">por unidade, faturamento único</div>
+        <ul class="price-feat">
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Tudo do plano Profissional</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Painel consolidado entre lojas</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Gerente de conta dedicado</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Usuários ilimitados</li>
+        </ul>
+        <button class="btn btn-ghost btn-block plan-btn" data-plan="Rede">Falar com vendas</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="background:var(--bg-alt);">
+  <div class="container">
+    <div class="section-head center">
+      <span class="tag">Dúvidas frequentes</span>
+      <h2>Perguntas que você provavelmente tem</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q"><span>Preciso de cartão de crédito para testar?</span><span class="plus"></span></button>
+        <div class="faq-a" style="max-height:120px;"><div class="faq-a-inner">Não. Você começa a usar o EcoStock por 14 dias sem informar cartão. Se quiser continuar depois do teste, escolhe o plano ali mesmo.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Consigo importar minha planilha atual de produtos?</span><span class="plus"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">Sim. Aceitamos importação por CSV ou Excel na hora do cadastro, e nossa equipe ajuda gratuitamente na migração se você tiver mais de 200 itens.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Como funcionam as sugestões de desconto?</span><span class="plus"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">O EcoStock calcula um desconto sugerido com base nos dias restantes de validade e no histórico de giro do produto. Você sempre pode ajustar o valor antes de aplicar.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Funciona para mercados pequenos, não só padarias?</span><span class="plus"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">Sim. O EcoStock é usado por padarias, mercados, açougues, hortifrútis e restaurantes — qualquer negócio que lida com produtos perecíveis.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Posso cancelar quando quiser?</span><span class="plus"></span></button>
+        <div class="faq-a"><div class="faq-a-inner">Sim, o cancelamento é feito direto no painel, sem multa e sem burocracia. Seus dados ficam disponíveis para exportação por 30 dias após o cancelamento.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta-band">
+      <h2>Pare de perder produto por falta de aviso</h2>
+      <p>Cadastre sua loja hoje e receba o primeiro alerta de vencimento ainda essa semana.</p>
+      <div class="cta-actions">
+        <button class="btn btn-light" id="finalCtaBtn">Começar grátis por 14 dias</button>
+        <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,0.35);" id="finalDemoBtn">Falar com um especialista</button>
+      </div>
+      <p class="cta-note">Sem cartão de crédito · Cancele quando quiser</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#top" class="brand">
+          <span class="brand-mark">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C7 2 4 6 4 11c0 5.5 4.5 9 8 11 3.5-2 8-5.5 8-11 0-5-3-9-8-9Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </span>
+          EcoStock
+        </a>
+        <p>Gestão inteligente de estoque para negócios que não podem perder tempo — nem produto.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Produto</h4>
+        <ul>
+          <li><a href="#recursos">Recursos</a></li>
+          <li><a href="#telas">A plataforma</a></li>
+          <li><a href="#precos">Preços</a></li>
+          <li><a href="#faq">Dúvidas</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#" class="footLink">Sobre nós</a></li>
+          <li><a href="#" class="footLink">Blog</a></li>
+          <li><a href="#" class="footLink">Carreiras</a></li>
+          <li><a href="#" class="footLink">Contato</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#" class="footLink">Termos de uso</a></li>
+          <li><a href="#" class="footLink">Privacidade</a></li>
+          <li><a href="#" class="footLink">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 EcoStock. Todos os direitos reservados.</span>
+      <div class="foot-social">
+        <a href="#" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M8 10v7M8 7v.01M12 17v-4.5a2 2 0 014 0V17M12 10v7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="4" stroke="currentColor" stroke-width="1.6"/><path d="M10 9l5 3-5 3V9Z" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="signupOverlay">
+  <div class="modal">
+    <button class="modal-close" id="signupClose" aria-label="Fechar">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <div id="signupForm">
+      <h3>Comece grátis por 14 dias</h3>
+      <p>Sem cartão de crédito. Leva menos de 2 minutos para configurar sua loja.</p>
+      <form id="realSignupForm">
+        <label for="loja">Nome da loja</label>
+        <input id="loja" type="text" placeholder="Ex: Padaria Pão Bom" required>
+        <label for="email">E-mail</label>
+        <input id="email" type="email" placeholder="voce@exemplo.com" required>
+        <label for="plano">Plano</label>
+        <select id="plano">
+          <option>Essencial</option>
+          <option selected>Profissional</option>
+          <option>Rede</option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-block">Criar minha conta</button>
+      </form>
+    </div>
+    <div class="modal-success" id="signupSuccess">
+      <div class="check"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3 style="text-align:center;">Conta criada!</h3>
+      <p style="text-align:center;">Enviamos as instruções de acesso para o seu e-mail. Bem-vindo ao EcoStock.</p>
+      <button class="btn btn-primary btn-block" id="signupDone">Concluir</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="demoOverlay">
+  <div class="modal">
+    <button class="modal-close" id="demoClose" aria-label="Fechar">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <h3>Ver demonstração</h3>
+    <p>Escolha um horário com nosso time e mostramos o EcoStock funcionando com dados parecidos com os da sua loja.</p>
+    <form id="demoForm">
+      <label for="dnome">Seu nome</label>
+      <input id="dnome" type="text" placeholder="Como podemos te chamar?" required>
+      <label for="dtel">WhatsApp</label>
+      <input id="dtel" type="tel" placeholder="(00) 00000-0000" required>
+      <label for="dneg">Tipo de negócio</label>
+      <select id="dneg">
+        <option>Padaria</option>
+        <option>Mercado</option>
+        <option>Açougue</option>
+        <option>Hortifrúti</option>
+        <option>Outro</option>
+      </select>
+      <button type="submit" class="btn btn-primary btn-block">Agendar demonstração</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
+ 
