@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<!-- ================= HEADER ================= -->
 <header>
   <nav class="nav">
     <a href="#top" class="brand">
@@ -26,7 +27,7 @@
       <a href="#faq">Dúvidas</a>
     </div>
     <div class="nav-cta">
-      <a href="#" class="nav-login" id="loginLink">Entrar</a>
+      <a href="../login.html" class="nav-login" id="loginLink">Entrar</a>
       <button class="btn btn-primary btn-sm" id="navCtaBtn">Começar grátis</button>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
         <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -35,6 +36,7 @@
   </nav>
 </header>
 
+<!-- ================= MOBILE PANEL ================= -->
 <div class="mobile-panel" id="mobilePanel">
   <div class="mobile-panel-top">
     <a href="#top" class="brand">
@@ -52,9 +54,11 @@
   <a href="#telas" class="mp-link">A plataforma</a>
   <a href="#precos" class="mp-link">Preços</a>
   <a href="#faq" class="mp-link">Dúvidas</a>
+  <a href="../login.html" class="mp-link">Entrar</a>
   <button class="btn btn-primary btn-block" id="mobileCtaBtn">Começar grátis</button>
 </div>
 
+<!-- ================= HERO ================= -->
 <main id="top">
 <section class="hero">
   <div class="container hero-grid">
@@ -117,7 +121,7 @@
   </div>
 </section>
 
-
+<!-- ================= STAT STRIP ================= -->
 <section class="stat-strip" style="padding:0;">
   <div class="container">
     <div class="stat-item"><b>R$ 1.240</b><span>economia média mensal por loja</span></div>
@@ -127,7 +131,7 @@
   </div>
 </section>
 
-
+<!-- ================= FEATURES ================= -->
 <section id="recursos">
   <div class="container">
     <div class="section-head">
@@ -170,6 +174,7 @@
   </div>
 </section>
 
+<!-- ================= HOW IT WORKS ================= -->
 <section id="como-funciona" style="background:var(--bg-alt);">
   <div class="container">
     <div class="section-head center">
@@ -196,6 +201,7 @@
   </div>
 </section>
 
+<!-- ================= PLATFORM TABS ================= -->
 <section id="telas">
   <div class="container">
     <div class="section-head">
@@ -332,6 +338,7 @@
   </div>
 </section>
 
+<!-- ================= TESTIMONIAL ================= -->
 <section style="background:var(--bg-alt);">
   <div class="container">
     <div class="testi">
@@ -344,6 +351,7 @@
   </div>
 </section>
 
+<!-- ================= PRICING ================= -->
 <section id="precos">
   <div class="container">
     <div class="section-head center">
@@ -403,6 +411,7 @@
   </div>
 </section>
 
+<!-- ================= FAQ ================= -->
 <section id="faq" style="background:var(--bg-alt);">
   <div class="container">
     <div class="section-head center">
@@ -434,6 +443,7 @@
   </div>
 </section>
 
+<!-- ================= FINAL CTA ================= -->
 <section>
   <div class="container">
     <div class="cta-band">
@@ -449,6 +459,7 @@
 </section>
 </main>
 
+<!-- ================= FOOTER ================= -->
 <footer>
   <div class="container">
     <div class="foot-grid">
@@ -499,6 +510,7 @@
   </div>
 </footer>
 
+<!-- ================= MODAL: SIGNUP ================= -->
 <div class="modal-overlay" id="signupOverlay">
   <div class="modal">
     <button class="modal-close" id="signupClose" aria-label="Fechar">
@@ -512,24 +524,30 @@
         <input id="loja" type="text" placeholder="Ex: Padaria Pão Bom" required>
         <label for="email">E-mail</label>
         <input id="email" type="email" placeholder="voce@exemplo.com" required>
+        <label for="senha">Senha</label>
+        <input id="senha" type="password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+        <label for="senhaConfirma">Confirmar senha</label>
+        <input id="senhaConfirma" type="password" placeholder="Repita a senha" minlength="6" required>
         <label for="plano">Plano</label>
         <select id="plano">
           <option>Essencial</option>
           <option selected>Profissional</option>
           <option>Rede</option>
         </select>
+        <p class="form-error" id="signupError"></p>
         <button type="submit" class="btn btn-primary btn-block">Criar minha conta</button>
       </form>
     </div>
     <div class="modal-success" id="signupSuccess">
       <div class="check"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       <h3 style="text-align:center;">Conta criada!</h3>
-      <p style="text-align:center;">Enviamos as instruções de acesso para o seu e-mail. Bem-vindo ao EcoStock.</p>
-      <button class="btn btn-primary btn-block" id="signupDone">Concluir</button>
+      <p style="text-align:center;">Sua loja já está pronta. Você pode acessar o painel agora mesmo.</p>
+      <button class="btn btn-primary btn-block" id="signupDone">Ir para o painel</button>
     </div>
   </div>
 </div>
 
+<!-- ================= MODAL: DEMO ================= -->
 <div class="modal-overlay" id="demoOverlay">
   <div class="modal">
     <button class="modal-close" id="demoClose" aria-label="Fechar">
@@ -555,6 +573,7 @@
   </div>
 </div>
 
+<!-- ================= TOAST ================= -->
 <div class="toast" id="toast">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span id="toastMsg">Feito!</span>
@@ -563,4 +582,3 @@
 <script src="js/script.js"></script>
 </body>
 </html>
- 

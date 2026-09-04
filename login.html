@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar — EcoStock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="frontend/css/style.css">
+<link rel="stylesheet" href="frontend/css/app.css">
+</head>
+<body>
+
+<div class="auth-page">
+  <!-- ================= VISUAL SIDE ================= -->
+  <div class="auth-visual">
+    <div class="auth-brand">
+      <span class="brand-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C7 2 4 6 4 11c0 5.5 4.5 9 8 11 3.5-2 8-5.5 8-11 0-5-3-9-8-9Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8v7M9 11h6" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </span>
+      EcoStock
+    </div>
+
+    <div class="auth-illustration">
+      <svg width="230" height="230" viewBox="0 0 230 230" fill="none">
+        <circle cx="115" cy="115" r="108" fill="rgba(255,255,255,0.05)"/>
+        <path d="M70 92h90l-8 92a10 10 0 01-10 9H88a10 10 0 01-10-9l-8-92Z" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+        <path d="M90 92v-14a25 25 0 0150 0v14" stroke="rgba(255,255,255,0.6)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="115" cy="128" r="26" fill="rgba(255,255,255,0.1)" stroke="#fff" stroke-width="2"/>
+        <path d="M115 114v28M104 122l11-8 11 8M104 134l11 8 11-8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M50 150c8-6 16-4 20 2" stroke="rgba(255,255,255,0.4)" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M180 70c-8-6-16-4-20 2" stroke="rgba(255,255,255,0.4)" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="auth-tagline">
+      <h2>Gestão inteligente. Consumo consciente.</h2>
+      <p>Acompanhe validade, evite perdas e venda mais antes do produto vencer — tudo em um só painel.</p>
+    </div>
+  </div>
+
+  <!-- ================= FORM SIDE ================= -->
+  <div class="auth-form-side">
+    <div class="auth-form-wrap">
+      <a href="frontend/index.html" class="auth-back">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Voltar ao site
+      </a>
+
+      <h1>Bem-vindo de volta!</h1>
+      <p class="auth-sub">Faça login para acessar sua conta.</p>
+
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">E-mail</label>
+          <input id="loginEmail" type="email" placeholder="exemplo@mercado.com" required>
+        </div>
+        <div class="field">
+          <label for="loginSenha">Senha</label>
+          <div class="field-input-wrap">
+            <input id="loginSenha" type="password" placeholder="••••••••••" required>
+            <button type="button" class="pw-toggle" id="pwToggle" aria-label="Mostrar senha">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" id="pwIcon"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label class="remember">
+            <input type="checkbox" id="rememberMe" checked>
+            Lembrar de mim
+          </label>
+          <a href="#" class="forgot-link" id="forgotLink">Esqueceu sua senha?</a>
+        </div>
+
+        <p class="form-error" id="loginError"></p>
+
+        <button type="submit" class="btn btn-primary btn-block" id="loginSubmitBtn">Entrar</button>
+      </form>
+
+      <div class="auth-demo-hint">
+        Ainda não tem conta? Crie uma pelo botão "Começar grátis" na página inicial — o cadastro já libera o acesso ao painel.
+      </div>
+
+      <p class="auth-foot">Não tem uma conta? <a href="frontend/index.html#precos">Cadastre-se</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="frontend/js/Auth.js"></script>
+<script src="frontend/js/Login.js"></script>
+</body>
+</html>

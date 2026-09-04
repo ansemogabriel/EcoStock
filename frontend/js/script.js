@@ -1,57 +1,212 @@
-const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+// ---------- Config ----------
+// URL base da API do back-end. Ajuste se o servidor rodar em outra porta/domínio.
+const API_BASE_URL = 'http://localhost:3000/api';
 
-const toast = (message) => {
-	const element = $('#toast');
-	$('#toastMsg').textContent = message;
-	element.classList.add('show');
-	window.setTimeout(() => element.classList.remove('show'), 3200);
-};
+// ---------- Mobile menu ----------
+const menuToggle = document.getElementById('menuToggle');
+const menuClose = document.getElementById('menuClose');
+const mobilePanel = document.getElementById('mobilePanel');
+menuToggle.addEventListener('click', () => mobilePanel.classList.add('open'));
+menuClose.addEventListener('click', () => mobilePanel.classList.remove('open'));
+mobilePanel.querySelectorAll('.mp-link').forEach(a => a.addEventListener('click', () => mobilePanel.classList.remove('open')));
 
-const signupOverlay = $('#signupOverlay');
-const demoOverlay = $('#demoOverlay');
-const openModal = (overlay) => overlay.classList.add('open');
-const closeModal = (overlay) => overlay.classList.remove('open');
+// ---------- Toast helper ----------
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toastMsg');
+let toastTimer;
+function showToast(msg){
+  toastMsg.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+}
 
-const openSignup = (plan) => {
-	openModal(signupOverlay);
-	if (plan) $('#plano').value = plan;
-};
+// ---------- Signup modal ----------
+const signupOverlay = document.getElementById('signupOverlay');
+const signupForm = document.getElementById('signupForm');
+const signupSuccess = document.getElementById('signupSuccess');
+const planSelect = document.getElementById('plano');
+const realSignupForm = document.getElementById('realSignupForm');
+const signupSubmitBtn = realSignupForm.querySelector('button[type="submit"]');
 
-$$('#navCtaBtn, #heroCtaBtn, #finalCtaBtn, #mobileCtaBtn').forEach((button) => button.addEventListener('click', () => openSignup()));
-$$('.plan-btn').forEach((button) => button.addEventListener('click', () => openSignup(button.dataset.plan)));
-$$('#heroDemoBtn, #finalDemoBtn').forEach((button) => button.addEventListener('click', () => openModal(demoOverlay)));
-$('#loginLink').addEventListener('click', (event) => { event.preventDefault(); toast('A área de acesso estará disponível em breve.'); });
+function openSignup(planName){
+  signupForm.style.display = 'block';
+  signupSuccess.classList.remove('show');
+  realSignupForm.reset();
+  if(planName){ planSelect.value = planName; }
+  signupOverlay.classList.add('open');
+}
+function closeSignup(){ signupOverlay.classList.remove('open'); }
 
-$('#menuToggle').addEventListener('click', () => $('#mobilePanel').classList.add('open'));
-$('#menuClose').addEventListener('click', () => $('#mobilePanel').classList.remove('open'));
-$$('.mp-link').forEach((link) => link.addEventListener('click', () => $('#mobilePanel').classList.remove('open')));
-
-$$('.modal-close').forEach((button) => button.addEventListener('click', () => closeModal(button.closest('.modal-overlay'))));
-$$('.modal-overlay').forEach((overlay) => overlay.addEventListener('click', (event) => { if (event.target === overlay) closeModal(overlay); }));
-
-$$('.tab-btn').forEach((button) => button.addEventListener('click', () => {
-	$$('.tab-btn').forEach((tab) => tab.classList.toggle('active', tab === button));
-	$$('.tab-panel').forEach((panel) => panel.classList.toggle('active', panel.dataset.panel === button.dataset.tab));
-}));
-
-const updatePrices = (yearly) => $$('.price-val').forEach((price) => { price.textContent = `R$ ${yearly ? price.dataset.y : price.dataset.m}`; });
-$('#toggleMonthly').addEventListener('click', () => { updatePrices(false); $('#toggleMonthly').classList.add('active'); $('#toggleYearly').classList.remove('active'); });
-$('#toggleYearly').addEventListener('click', () => { updatePrices(true); $('#toggleYearly').classList.add('active'); $('#toggleMonthly').classList.remove('active'); });
-
-$$('.faq-q').forEach((question) => question.addEventListener('click', () => {
-	const item = question.parentElement;
-	const answer = $('.faq-a', item);
-	const isOpen = item.classList.toggle('open');
-	answer.style.maxHeight = isOpen ? `${answer.scrollHeight}px` : '0px';
-}));
-
-$('#realSignupForm').addEventListener('submit', (event) => {
-	event.preventDefault();
-	$('#signupForm').style.display = 'none';
-	$('#signupSuccess').classList.add('open');
+['navCtaBtn','mobileCtaBtn','heroCtaBtn','finalCtaBtn'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('click', () => { mobilePanel.classList.remove('open'); openSignup(); });
 });
-$('#signupDone').addEventListener('click', () => { closeModal(signupOverlay); $('#signupForm').style.display = ''; $('#signupSuccess').classList.remove('open'); $('#realSignupForm').reset(); });
-$('#demoForm').addEventListener('submit', (event) => { event.preventDefault(); closeModal(demoOverlay); event.target.reset(); toast('Pedido recebido. Nossa equipe entrará em contato.'); });
+document.querySelectorAll('.plan-btn').forEach(btn=>{
+  btn.addEventListener('click', () => {
+    const plan = btn.getAttribute('data-plan');
+    if(plan === 'Rede'){ openDemo(); } else { openSignup(plan); }
+  });
+});
+document.getElementById('signupClose').addEventListener('click', closeSignup);
+signupOverlay.addEventListener('click', (e) => { if(e.target === signupOverlay) closeSignup(); });
 
-document.addEventListener('keydown', (event) => { if (event.key === 'Escape') $$('.modal-overlay.open').forEach(closeModal); });
+const signupError = document.getElementById('signupError');
+
+realSignupForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  signupError.classList.remove('show');
+
+  const senha = document.getElementById('senha').value;
+  const senhaConfirma = document.getElementById('senhaConfirma').value;
+
+  if (senha !== senhaConfirma) {
+    signupError.textContent = 'As senhas não conferem.';
+    signupError.classList.add('show');
+    return;
+  }
+
+  const payload = {
+    loja: document.getElementById('loja').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    senha,
+    plano: document.getElementById('plano').value
+  };
+
+  signupSubmitBtn.disabled = true;
+  const originalLabel = signupSubmitBtn.textContent;
+  signupSubmitBtn.textContent = 'Enviando...';
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || 'Não foi possível criar sua conta.');
+    }
+
+    // Cadastro cria a conta e já autentica o usuário (login automático)
+    localStorage.setItem('ecostock_token', data.token);
+    localStorage.setItem('ecostock_user', JSON.stringify(data.user));
+
+    signupForm.style.display = 'none';
+    signupSuccess.classList.add('show');
+  } catch (err) {
+    signupError.textContent = err.message || 'Erro ao conectar com o servidor. Tente novamente.';
+    signupError.classList.add('show');
+  } finally {
+    signupSubmitBtn.disabled = false;
+    signupSubmitBtn.textContent = originalLabel;
+  }
+});
+
+document.getElementById('signupDone').addEventListener('click', () => {
+  window.location.href = '../dashboard.html';
+});
+
+// ---------- Demo modal ----------
+const demoOverlay = document.getElementById('demoOverlay');
+const demoForm = document.getElementById('demoForm');
+const demoSubmitBtn = demoForm.querySelector('button[type="submit"]');
+
+function openDemo(){ demoOverlay.classList.add('open'); }
+function closeDemo(){ demoOverlay.classList.remove('open'); }
+['heroDemoBtn','finalDemoBtn'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('click', openDemo);
+});
+document.getElementById('demoClose').addEventListener('click', closeDemo);
+demoOverlay.addEventListener('click', (e) => { if(e.target === demoOverlay) closeDemo(); });
+
+demoForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    nome: document.getElementById('dnome').value.trim(),
+    telefone: document.getElementById('dtel').value.trim(),
+    negocio: document.getElementById('dneg').value
+  };
+
+  demoSubmitBtn.disabled = true;
+  const originalLabel = demoSubmitBtn.textContent;
+  demoSubmitBtn.textContent = 'Enviando...';
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/demo`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || 'Não foi possível agendar a demonstração.');
+    }
+
+    closeDemo();
+    showToast('Demonstração agendada — nosso time vai te chamar em breve.');
+    demoForm.reset();
+  } catch (err) {
+    showToast(err.message || 'Erro ao conectar com o servidor. Tente novamente.');
+  } finally {
+    demoSubmitBtn.disabled = false;
+    demoSubmitBtn.textContent = originalLabel;
+  }
+});
+
+// ---------- Footer placeholder links ----------
+document.querySelectorAll('.footLink').forEach(a=>{
+  a.addEventListener('click', (e) => { e.preventDefault(); showToast('Página em construção.'); });
+});
+
+// ---------- Tabs ----------
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabButtons.forEach(b => b.classList.remove('active'));
+    tabPanels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector(`.tab-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
+  });
+});
+
+// ---------- FAQ accordion ----------
+document.querySelectorAll('.faq-item').forEach(item => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  if(item.classList.contains('open')){ a.style.maxHeight = a.scrollHeight + 'px'; }
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(other => {
+      other.classList.remove('open');
+      other.querySelector('.faq-a').style.maxHeight = null;
+    });
+    if(!isOpen){
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+// ---------- Pricing toggle ----------
+const toggleMonthly = document.getElementById('toggleMonthly');
+const toggleYearly = document.getElementById('toggleYearly');
+const priceVals = document.querySelectorAll('.price-val');
+toggleMonthly.addEventListener('click', () => {
+  toggleMonthly.classList.add('active'); toggleYearly.classList.remove('active');
+  priceVals.forEach(v => v.textContent = 'R$ ' + v.dataset.m);
+});
+toggleYearly.addEventListener('click', () => {
+  toggleYearly.classList.add('active'); toggleMonthly.classList.remove('active');
+  priceVals.forEach(v => v.textContent = 'R$ ' + v.dataset.y);
+});
+
+// ---------- Close mobile menu on resize to desktop ----------
+window.addEventListener('resize', () => { if(window.innerWidth > 720) mobilePanel.classList.remove('open'); });

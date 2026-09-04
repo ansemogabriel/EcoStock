@@ -699,6 +699,16 @@
   }
   .modal input:focus, .modal select:focus{border-color:var(--green-600);}
   .modal .btn{margin-top:22px;}
+  .form-error{
+    display:none;
+    font-size:13px;
+    color:var(--terracotta);
+    background:var(--terracotta-100);
+    padding:9px 12px;
+    border-radius:8px;
+    margin-top:16px;
+  }
+  .form-error.show{display:block;}
   .modal-success{display:none;text-align:center;padding:10px 0 4px;}
   .modal-success.show{display:block;}
   .modal-success .check{
