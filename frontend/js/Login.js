@@ -1,3 +1,11 @@
+// Verificação de integridade: garante que api.js foi carregado antes de usá-lo
+if (typeof Api === 'undefined') {
+  document.getElementById('loginError').textContent =
+    'Erro ao carregar arquivos do sistema (js/api.js). Confira se a pasta "js" está completa, ao lado deste arquivo.';
+  document.getElementById('loginError').classList.add('show');
+  document.getElementById('loginSubmitBtn').disabled = true;
+}
+
 // Se já estiver logado, pula direto pro painel
 if (Auth.isLoggedIn()) {
   window.location.href = 'dashboard.html';
@@ -53,18 +61,12 @@ loginForm.addEventListener('submit', async (e) => {
   loginSubmitBtn.textContent = 'Entrando...';
 
   try {
-    const res = await fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || 'Não foi possível entrar.');
-    }
+    const data = await Api.login(payload);
 
     Auth.setSession(data.token, data.user);
+    if (data._mock) {
+      sessionStorage.setItem('ecostock_mock_notice', '1');
+    }
     window.location.href = 'dashboard.html';
   } catch (err) {
     loginError.textContent = err.message || 'Erro ao conectar com o servidor. Tente novamente.';

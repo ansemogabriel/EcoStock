@@ -1,7 +1,3 @@
-// ---------- Config ----------
-// URL base da API do back-end. Ajuste se o servidor rodar em outra porta/domínio.
-const API_BASE_URL = 'http://localhost:3000/api';
-
 // ---------- Mobile menu ----------
 const menuToggle = document.getElementById('menuToggle');
 const menuClose = document.getElementById('menuClose');
@@ -53,9 +49,19 @@ signupOverlay.addEventListener('click', (e) => { if(e.target === signupOverlay) 
 
 const signupError = document.getElementById('signupError');
 
+function checkApiLoaded(errorTarget) {
+  if (typeof Api === 'undefined') {
+    errorTarget.textContent = 'Erro ao carregar arquivos do sistema (js/api.js). Confira se a pasta "js" está completa, ao lado do index.html.';
+    errorTarget.classList.add('show');
+    return false;
+  }
+  return true;
+}
+
 realSignupForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   signupError.classList.remove('show');
+  if (!checkApiLoaded(signupError)) return;
 
   const senha = document.getElementById('senha').value;
   const senhaConfirma = document.getElementById('senhaConfirma').value;
@@ -78,17 +84,7 @@ realSignupForm.addEventListener('submit', async (e) => {
   signupSubmitBtn.textContent = 'Enviando...';
 
   try {
-    const res = await fetch(`${API_BASE_URL}/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || 'Não foi possível criar sua conta.');
-    }
+    const data = await Api.signup(payload);
 
     // Cadastro cria a conta e já autentica o usuário (login automático)
     localStorage.setItem('ecostock_token', data.token);
@@ -96,6 +92,10 @@ realSignupForm.addEventListener('submit', async (e) => {
 
     signupForm.style.display = 'none';
     signupSuccess.classList.add('show');
+
+    if (data._mock) {
+      showToast('Back-end offline: conta salva neste navegador (modo local).');
+    }
   } catch (err) {
     signupError.textContent = err.message || 'Erro ao conectar com o servidor. Tente novamente.';
     signupError.classList.add('show');
@@ -106,7 +106,7 @@ realSignupForm.addEventListener('submit', async (e) => {
 });
 
 document.getElementById('signupDone').addEventListener('click', () => {
-  window.location.href = '../dashboard.html';
+  window.location.href = 'dashboard.html';
 });
 
 // ---------- Demo modal ----------
@@ -125,6 +125,10 @@ demoOverlay.addEventListener('click', (e) => { if(e.target === demoOverlay) clos
 
 demoForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (typeof Api === 'undefined') {
+    showToast('Erro ao carregar arquivos do sistema (js/api.js). Confira se a pasta "js" está completa.');
+    return;
+  }
 
   const payload = {
     nome: document.getElementById('dnome').value.trim(),
@@ -137,17 +141,7 @@ demoForm.addEventListener('submit', async (e) => {
   demoSubmitBtn.textContent = 'Enviando...';
 
   try {
-    const res = await fetch(`${API_BASE_URL}/demo`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || 'Não foi possível agendar a demonstração.');
-    }
+    await Api.demo(payload);
 
     closeDemo();
     showToast('Demonstração agendada — nosso time vai te chamar em breve.');
@@ -210,3 +204,10 @@ toggleYearly.addEventListener('click', () => {
 
 // ---------- Close mobile menu on resize to desktop ----------
 window.addEventListener('resize', () => { if(window.innerWidth > 720) mobilePanel.classList.remove('open'); });
+
+// ---------- Abre o cadastro automaticamente se a URL vier com #cadastro ----------
+// (usado pelo link "Cadastre-se" da tela de login)
+if (window.location.hash === '#cadastro') {
+  openSignup();
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+}

@@ -3,6 +3,15 @@ if (!Auth.requireLogin()) {
   throw new Error('Redirecionando para login...');
 }
 
+// Verificação de integridade: garante que api.js foi carregado antes de usá-lo
+if (typeof Api === 'undefined') {
+  document.getElementById('dashLoading').style.display = 'none';
+  const errEl = document.getElementById('dashError');
+  errEl.style.display = 'block';
+  errEl.textContent = 'Erro ao carregar arquivos do sistema (js/api.js). Confira se a pasta "js" está completa, ao lado deste arquivo.';
+  throw new Error('Api indisponível');
+}
+
 // ---------- Toast helper ----------
 const toast = document.getElementById('toast');
 const toastMsg = document.getElementById('toastMsg');
@@ -30,6 +39,11 @@ document.querySelectorAll('.soon-link').forEach(link => {
   });
 });
 
+if (sessionStorage.getItem('ecostock_mock_notice')) {
+  sessionStorage.removeItem('ecostock_mock_notice');
+  setTimeout(() => showToast('Back-end offline: usando dados salvos neste navegador.'), 400);
+}
+
 document.getElementById('bellBtn').addEventListener('click', () => {
   showToast('Você tem 16 produtos próximos do vencimento.');
 });
@@ -48,18 +62,16 @@ async function loadDashboard() {
   const contentEl = document.getElementById('dashContent');
 
   try {
-    const res = await Auth.authFetch('/dashboard/summary');
-    if (!res) return; // authFetch já redirecionou para login (401)
-
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error || 'Não foi possível carregar o painel.');
-    }
+    const data = await Api.dashboardSummary(Auth.getToken());
 
     renderDashboard(data);
     loadingEl.style.display = 'none';
     contentEl.style.display = 'block';
   } catch (err) {
+    if (err.status === 401) {
+      Auth.logout();
+      return;
+    }
     loadingEl.style.display = 'none';
     errorEl.style.display = 'block';
     errorEl.textContent = err.message || 'Erro ao carregar os dados. Tente atualizar a página.';
@@ -78,13 +90,12 @@ function renderDashboard(data) {
 
   // ---- Gráfico de barras (perdas x recuperado) ----
   const barChart = document.getElementById('barChart');
-  const resumoMes = Array.isArray(data.resumoMes) ? data.resumoMes : [];
-  const maxVal = Math.max(1, ...resumoMes.flatMap(m => [Number(m.perdas) || 0, Number(m.recuperado) || 0]));
-  barChart.innerHTML = resumoMes.map(m => `
+  const maxVal = Math.max(...data.resumoMes.flatMap(m => [m.perdas, m.recuperado]));
+  barChart.innerHTML = data.resumoMes.map(m => `
     <div class="bar-col">
       <div class="bar-stack">
-        <div class="bar recovered" style="height:${((Number(m.recuperado) || 0) / maxVal * 100).toFixed(0)}%"></div>
-        <div class="bar loss" style="height:${((Number(m.perdas) || 0) / maxVal * 100).toFixed(0)}%"></div>
+        <div class="bar recovered" style="height:${(m.recuperado / maxVal * 100).toFixed(0)}%"></div>
+        <div class="bar loss" style="height:${(m.perdas / maxVal * 100).toFixed(0)}%"></div>
       </div>
       <span>${m.mes}</span>
     </div>
@@ -93,19 +104,17 @@ function renderDashboard(data) {
   // ---- Donut de motivos de perda ----
   const cores = ['var(--terracotta)', 'var(--amber)', 'var(--green-500)', 'var(--green-800)'];
   let acc = 0;
-  const motivosPerdas = Array.isArray(data.motivosPerdas) ? data.motivosPerdas : [];
-  const gradientParts = motivosPerdas.map((m, i) => {
+  const gradientParts = data.motivosPerdas.map((m, i) => {
     const start = acc;
     acc += m.percentual;
     return `${cores[i % cores.length]} ${start}% ${acc}%`;
   });
-  document.getElementById('donutChart').style.background = gradientParts.length
-    ? `conic-gradient(${gradientParts.join(', ')})`
-    : 'var(--line)';
+  document.getElementById('donutChart').style.background =
+    `conic-gradient(${gradientParts.join(', ')})`;
   document.getElementById('donutChart').style.setProperty('--donut-hole', '#fff');
   document.getElementById('donutChart').style.boxShadow = 'inset 0 0 0 22px var(--paper)';
 
-  document.getElementById('donutLegend').innerHTML = motivosPerdas.map((m, i) => `
+  document.getElementById('donutLegend').innerHTML = data.motivosPerdas.map((m, i) => `
     <div class="row">
       <span class="left"><span class="legend-dot" style="background:${cores[i % cores.length]};width:9px;height:9px;border-radius:3px;"></span>${m.motivo}</span>
       <b>${m.percentual}%</b>

@@ -1,5 +1,8 @@
-// ---------- Config ----------
-const API_BASE_URL = 'http://localhost:3000/api';
+// ---------------------------------------------------------------------------
+// Auth — gerencia a sessão do usuário no navegador (token + dados básicos).
+// As chamadas de rede em si (com fallback automático para o modo local)
+// ficam em api.js / mock-api.js.
+// ---------------------------------------------------------------------------
 
 const AUTH_TOKEN_KEY = 'ecostock_token';
 const AUTH_USER_KEY = 'ecostock_user';
@@ -10,13 +13,7 @@ const Auth = {
   },
   getUser() {
     const raw = localStorage.getItem(AUTH_USER_KEY);
-    if (!raw) return null;
-    try {
-      return JSON.parse(raw);
-    } catch {
-      this.clearSession();
-      return null;
-    }
+    return raw ? JSON.parse(raw) : null;
   },
   setSession(token, user) {
     localStorage.setItem(AUTH_TOKEN_KEY, token);
@@ -40,23 +37,5 @@ const Auth = {
   logout() {
     this.clearSession();
     window.location.href = 'login.html';
-  },
-  // fetch com o header de autenticação já preenchido. Redireciona ao login em caso de 401.
-  async authFetch(path, options = {}) {
-    const token = this.getToken();
-    const headers = Object.assign(
-      { 'Content-Type': 'application/json' },
-      options.headers || {},
-      token ? { Authorization: `Bearer ${token}` } : {}
-    );
-
-    const res = await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
-
-    if (res.status === 401) {
-      this.clearSession();
-      window.location.href = 'login.html';
-      return null;
-    }
-    return res;
   }
 };

@@ -39,18 +39,13 @@ function ensureDataFiles() {
 ensureDataFiles();
 
 function readJson(filePath) {
-  try {
-    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 }
 function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
-const isValidEmail = (email) => typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 function issueToken(user) {
   return jwt.sign(
@@ -92,13 +87,13 @@ app.get('/api/health', (req, res) => {
 app.post('/api/signup', (req, res) => {
   const { loja, email, senha, plano } = req.body || {};
 
-  if (typeof loja !== 'string' || !loja.trim()) {
+  if (!loja || !loja.trim()) {
     return res.status(400).json({ error: 'Informe o nome da loja.' });
   }
-  if (!isValidEmail(email)) {
+  if (!email || !isValidEmail(email)) {
     return res.status(400).json({ error: 'Informe um e-mail válido.' });
   }
-  if (typeof senha !== 'string' || senha.length < 6) {
+  if (!senha || senha.length < 6) {
     return res.status(400).json({ error: 'A senha precisa ter pelo menos 6 caracteres.' });
   }
 
@@ -138,7 +133,7 @@ app.post('/api/signup', (req, res) => {
 app.post('/api/login', (req, res) => {
   const { email, senha } = req.body || {};
 
-  if (typeof email !== 'string' || typeof senha !== 'string' || !email.trim() || !senha) {
+  if (!email || !senha) {
     return res.status(400).json({ error: 'Informe e-mail e senha.' });
   }
 
@@ -161,10 +156,10 @@ app.post('/api/login', (req, res) => {
 app.post('/api/demo', (req, res) => {
   const { nome, telefone, negocio } = req.body || {};
 
-  if (typeof nome !== 'string' || !nome.trim()) {
+  if (!nome || !nome.trim()) {
     return res.status(400).json({ error: 'Informe o seu nome.' });
   }
-  if (typeof telefone !== 'string' || telefone.trim().length < 8) {
+  if (!telefone || telefone.trim().length < 8) {
     return res.status(400).json({ error: 'Informe um número de WhatsApp válido.' });
   }
 

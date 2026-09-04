@@ -2,10 +2,10 @@
   "name": "ecostock-backend",
   "version": "1.0.0",
   "description": "API do EcoStock: cadastro/login com autenticação (bcrypt + JWT), agendamento de demo e dados do dashboard.",
-  "main": "Server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node Server.js",
-    "dev": "node --watch Server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
