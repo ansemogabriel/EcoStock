@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173b32">
+  <title>EcoStock | Visão geral</title>
+  <link rel="stylesheet" href="css/sytle.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#inicio" aria-label="EcoStock, início">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M32.5 7.5C20 8 10 12.2 9 22.5c-.5 5 3.1 8.2 7.5 7.5C27 28.5 31.5 18 32.5 7.5Z" fill="currentColor"/><path d="M8 33c4.8-8 10.2-13.3 18-18" stroke="#173b32" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </span>
+        <span>Eco<span>Stock</span></span>
+      </a>
+
+      <p class="nav-caption">Menu principal</p>
+      <nav class="main-nav" aria-label="Menu principal">
+        <a class="nav-link active" href="#inicio" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1V10Z"/></svg><span>Visão geral</span>
+        </a>
+        <a class="nav-link" href="#produtos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 8 9 5 9-5M3 8v10l9 5 9-5V8M12 13v10"/></svg><span>Produtos</span></a>
+        <a class="nav-link" href="#lotes"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Lotes</span></a>
+        <a class="nav-link" href="#perdas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6m4-6v6M5 7l1 14h12l1-14M9 7V4h6v3"/></svg><span>Perdas</span></a>
+        <a class="nav-link" href="#relatorios"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V12M10 20V5M16 20V9M22 20V3"/></svg><span>Relatórios</span></a>
+      </nav>
+
+      <div class="sidebar-note">
+        <span class="note-icon" aria-hidden="true">✳</span>
+        <p>Um cuidado por vez.<br><strong>Menos desperdício.</strong></p>
+      </div>
+      <div class="profile">
+        <span class="avatar">MM</span>
+        <span class="profile-copy"><strong>Marta Moreira</strong><small>Administradora</small></span>
+        <button class="icon-button profile-more" type="button" aria-label="Opções do perfil">•••</button>
+      </div>
+    </aside>
+
+    <main class="main-content" id="inicio">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="store-switcher">
+          <span class="store-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 10h18l-2-6H5l-2 6ZM5 10v10h14V10M9 20v-6h6v6M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></svg></span>
+          <span>Merceria da Marta</span>
+          <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+        <section class="welcome-row" aria-labelledby="welcome-title">
+          <div>
+            <p class="today-label">QUINTA-FEIRA, 15 DE OUTUBRO</p>
+            <h1 id="welcome-title">Bom dia, Marta</h1>
+            <p class="welcome-copy">Veja o que precisa de atenção no estoque hoje.</p>
+          </div>
+          <button class="button button-primary" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Novo lote
+          </button>
+        </section>
+
+        <section class="expiry-overview" aria-labelledby="expiry-title">
+          <div class="expiry-intro">
+            <span class="barcode-icon" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 7v18M9 7v18M13 7v18M19 7v18M23 7v18M27 7v18"/></svg></span>
+            <div><h2 id="expiry-title">Validade à vista</h2><p>Acompanhe os lotes que vencem<br class="desktop-only"> nos próximos dias.</p></div>
+          </div>
+          <div class="expiry-stats">
+            <div class="expiry-stat urgent"><span class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span><small>Vence hoje</small><strong>2 lotes</strong></span></div>
+            <div class="expiry-stat soon"><span class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span><small>Até 3 dias</small><strong>5 lotes</strong></span></div>
+            <div class="expiry-stat later"><span class="stat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span><span><small>Até 7 dias</small><strong>12 lotes</strong></span></div>
+          </div>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="panel lots-panel" id="lotes" aria-labelledby="lots-title">
+            <div class="panel-heading">
+              <div><h2 id="lots-title">Lotes que pedem atenção</h2><p>Priorize os produtos com vencimento mais próximo.</p></div>
+              <a class="text-link" href="#lotes">Ver todos <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th scope="col">Produto</th><th scope="col">Lote</th><th scope="col">Quantidade</th><th scope="col">Validade</th><th scope="col">Situação</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="product-cell"><span class="food-thumb milk" aria-hidden="true">🥛</span><strong>Leite integral</strong></span></td><td class="muted">LT-204</td><td>8 un.</td><td>15 out.</td><td><span class="status status-danger"><i></i>Vence hoje</span></td></tr>
+                  <tr><td><span class="product-cell"><span class="food-thumb yogurt" aria-hidden="true">🥣</span><strong>Iogurte natural</strong></span></td><td class="muted">LT-118</td><td>14 un.</td><td>17 out.</td><td><span class="status status-warning"><i></i>Em 2 dias</span></td></tr>
+                  <tr><td><span class="product-cell"><span class="food-thumb bread" aria-hidden="true">🍞</span><strong>Pão de forma</strong></span></td><td class="muted">LT-071</td><td>6 un.</td><td>20 out.</td><td><span class="status status-good"><i></i>Em 5 dias</span></td></tr>
+                  <tr><td><span class="product-cell"><span class="food-thumb cheese" aria-hidden="true">🧀</span><strong>Queijo minas</strong></span></td><td class="muted">LT-133</td><td>4 un.</td><td>21 out.</td><td><span class="status status-good"><i></i>Em 6 dias</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-foot"><span>Mostrando 4 de 12 lotes próximos do vencimento</span><a href="#lotes" class="text-link">Abrir lista completa <span aria-hidden="true">→</span></a></div>
+          </section>
+
+          <aside class="suggestion-panel" aria-labelledby="suggestion-title">
+            <div class="suggestion-heading"><span class="bulb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M8 14a7 7 0 1 1 8 0c-1 .7-1 2-1 2H9s0-1.3-1-2ZM12 2V1M4.9 4.9 4 4M19.1 4.9 20 4"/></svg></span><h2 id="suggestion-title">Sugestão do EcoStock</h2></div>
+            <div class="suggestion-body">
+              <div class="suggested-product"><span class="food-thumb yogurt large" aria-hidden="true">🥣</span><div><strong>Iogurte natural</strong><span>Lote LT-118 · 14 unidades</span></div></div>
+              <p class="discount-copy">Considere um desconto de <strong>10%</strong></p>
+              <p class="suggestion-note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>É só uma sugestão. O preço não muda automaticamente.</span></p>
+              <button class="button button-outline" type="button">Registrar decisão</button>
+            </div>
+          </aside>
+        </div>
+
+        <section class="panel losses-panel" id="perdas" aria-labelledby="losses-title">
+          <div class="loss-chart-area">
+            <div class="loss-heading"><span class="chart-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19v-7M10 19V5M16 19v-10M22 19V3"/></svg></span><h2 id="losses-title">Perdas neste mês</h2><span class="loss-value">R$ 86,40</span></div>
+            <div class="chart" role="img" aria-label="Gráfico ilustrativo de perdas semanais em outubro">
+              <div class="y-labels"><span>R$ 60</span><span>R$ 40</span><span>R$ 20</span><span>R$ 0</span></div>
+              <div class="chart-plot"><div class="grid-lines"><i></i><i></i><i></i><i></i></div><div class="bar-group"><div class="bar-column"><span class="bar" style="--bar-height:62%"></span><small>1–7 out.</small></div><div class="bar-column"><span class="bar" style="--bar-height:94%"></span><small>8–14 out.</small></div><div class="bar-column"><span class="bar" style="--bar-height:48%"></span><small>15–21 out.</small></div><div class="bar-column"><span class="bar" style="--bar-height:24%"></span><small>22–28 out.</small></div><div class="bar-column"><span class="bar" style="--bar-height:12%"></span><small>29–31 out.</small></div></div></div>
+            </div>
+          </div>
+          <div class="loss-message"><span class="basket-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 18h30l-3 24H12L9 18ZM16 18l8-13 8 13M18 24v11M30 24v11"/></svg></span><p><strong>Menos perdas, mais cuidado.</strong><br>Seus registros ajudam a aproveitar melhor os alimentos.</p></div>
+        </section>
+        <p class="demo-note">Prévia visual com dados demonstrativos</p>
+      </div>
+    </main>
+  </div>
+  <div class="sidebar-scrim" id="sidebarScrim"></div>
+  <script src="js/script.js"></script>
+</body>
+</html>
