@@ -37,6 +37,23 @@ function mockWriteDemos(list) {
   localStorage.setItem(MOCK_DEMOS_KEY, JSON.stringify(list));
 }
 
+// Conta de demonstração para facilitar o primeiro acesso no modo local.
+// Ela é criada apenas no navegador e não vale para um backend real.
+const MOCK_DEMO_ACCOUNT = {
+  id: 'ecostock-demo-account',
+  loja: 'EcoStock Demo',
+  email: 'demo@ecostock.local',
+  senha: 'EcoStockDemo2026!',
+  plano: 'Rede',
+  criadoEm: new Date().toISOString()
+};
+
+const mockAccounts = mockReadSignups();
+if (!mockAccounts.some(account => account.email.toLowerCase() === MOCK_DEMO_ACCOUNT.email)) {
+  mockAccounts.push(MOCK_DEMO_ACCOUNT);
+  mockWriteSignups(mockAccounts);
+}
+
 const mockIsValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || '');
 const mockGenId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
