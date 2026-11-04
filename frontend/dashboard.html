@@ -4,155 +4,173 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — EcoStock</title>
+<link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/app.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=3">
+<link rel="stylesheet" href="css/dashboard.css?v=3">
 </head>
 <body>
 
-<div class="app-shell">
+<div class="shell">
   <!-- ================= SIDEBAR ================= -->
-  <aside class="app-sidebar">
-    <a href="dashboard.html" class="brand">
-      <span class="brand-mark">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C7 2 4 6 4 11c0 5.5 4.5 9 8 11 3.5-2 8-5.5 8-11 0-5-3-9-8-9Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8v7M9 11h6" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
+  <aside class="sidebar">
+    <a href="dashboard.html" class="logo" aria-label="EcoStock — Dashboard">
+      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#0E3A31"/>
+        <path d="M7 25C7 13.5 13.5 7 25 7C25 18.5 18.5 25 7 25Z" stroke="#CDEBD8" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M7 25L16 16V10.5" stroke="#F2B744" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="16" r="1.8" fill="#F2B744"/>
+      </svg>
       EcoStock
     </a>
 
-    <nav class="side-nav">
-      <a href="dashboard.html" class="side-link active">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 011-1h6l2 2h6a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1Z" stroke="currentColor" stroke-width="1.6"/></svg>
+    <nav class="nav" aria-label="Menu principal">
+      <a href="dashboard.html" class="nav-link active" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
         Dashboard
       </a>
-      <a href="#" class="side-link soon-link">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.6"/></svg>
+      <a href="#" class="nav-link soon-link">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8l8-4 8 4v8l-8 4-8-4V8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 8l8 4 8-4M12 12v8" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
         Produtos
       </a>
-      <a href="#" class="side-link soon-link">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2Z" stroke="currentColor" stroke-width="1.6"/></svg>
+      <a href="#" class="nav-link soon-link">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 20h18M5 20V9h14v11M3 9l9-5 9 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 20v-6h6v6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
         Lotes / Estoque
       </a>
-      <a href="#" class="side-link soon-link">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20Z" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <a href="#" class="nav-link soon-link">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         Vencimentos
-        <span class="side-badge" id="sideVencBadge">16</span>
+        <span class="nav-badge" id="sideVencBadge">—</span>
       </a>
-      <a href="#" class="side-link soon-link">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M20 12l-7.5 7.5a2 2 0 01-2.8 0L4 13.8V4h9.8l6.2 6.2a2 2 0 010 2.8Z" stroke="currentColor" stroke-width="1.6"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/></svg>
+      <a href="#" class="nav-link soon-link">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 12.5l-7.5 7.5a2 2 0 01-2.8 0L4 14.3V4h10.3l5.7 5.7a2 2 0 010 2.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/></svg>
         Promoções
       </a>
-      <a href="#" class="side-link soon-link">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M3 3v18h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <a href="#" class="nav-link soon-link">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 4v16h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7 8l4 4 3-2 5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Perdas
       </a>
-      <a href="#" class="side-link soon-link">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 011-1h11l4 4v11a1 1 0 01-1 1H5a1 1 0 01-1-1Z" stroke="currentColor" stroke-width="1.6"/><path d="M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <a href="#" class="nav-link soon-link">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3.5h8l4 4V20a.5.5 0 01-.5.5h-11A.5.5 0 016 20V3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         Relatórios
       </a>
-      <a href="#" class="side-link soon-link">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.9 2.9l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.6V21a2 2 0 11-4 0v-.2a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.9-2.9l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.6-1H3a2 2 0 110-4h.2a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.9-2.9l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.6V3a2 2 0 114 0v.2a1.7 1.7 0 001 1.6 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.9 2.9l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.6 1H21a2 2 0 110 4h-.2a1.7 1.7 0 00-1.6 1Z" stroke="currentColor" stroke-width="1.4"/></svg>
+      <div class="nav-sep" role="separator"></div>
+      <a href="#" class="nav-link soon-link">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="16" cy="7" r="2" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="17" r="2" stroke="currentColor" stroke-width="1.6"/></svg>
         Configurações
       </a>
     </nav>
 
-    <div class="side-profile">
+    <div class="profile">
       <div class="avatar" id="sideAvatar">?</div>
       <div class="who">
         <b id="sideName">Carregando...</b>
         <span id="sideStore">&nbsp;</span>
       </div>
-      <button class="logout-btn" id="logoutBtn" aria-label="Sair" title="Sair">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <button class="icon-btn" id="logoutBtn" aria-label="Sair" title="Sair">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
   </aside>
 
   <!-- ================= MAIN ================= -->
-  <main class="app-main">
-    <div class="app-topbar">
-      <h1>Dashboard</h1>
-      <button class="bell-btn" id="bellBtn" aria-label="Notificações">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.7 21a2 2 0 01-3.4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="greeting">Dashboard</h1>
+        <p class="date" id="todayDate"></p>
+      </div>
+      <button class="icon-btn" id="bellBtn" aria-label="Notificações">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.7 21a2 2 0 01-3.4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         <span class="bell-dot"></span>
       </button>
-    </div>
+    </header>
 
-    <div id="dashLoading" class="loading-state">Carregando seus dados...</div>
-    <div id="dashError" class="error-state" style="display:none;"></div>
+    <div id="dashLoading" class="state">Carregando seus dados...</div>
+    <div id="dashError" class="state error" role="alert" hidden></div>
 
-    <div id="dashContent" style="display:none;">
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <span class="label">Produtos cadastrados</span>
-          <b id="kpiProdutos">—</b>
-        </div>
-        <div class="kpi-card warn">
-          <span class="label">Próximos do vencimento</span>
-          <b id="kpiProximos">—</b>
-        </div>
-        <div class="kpi-card danger">
-          <span class="label">Vencendo hoje</span>
-          <b id="kpiHoje">—</b>
-        </div>
-        <div class="kpi-card danger">
-          <span class="label">Vencidos</span>
-          <b id="kpiVencidos">—</b>
-        </div>
-      </div>
-
-      <div class="kpi-grid-2">
-        <div class="kpi-wide">
-          <span class="kpi-icon" style="background:var(--terracotta-100); color:var(--terracotta);">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 2v14M12 16l-4-4M12 16l4-4M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <div><b id="kpiValorRisco">—</b><span>Valor em risco</span></div>
-        </div>
-        <div class="kpi-wide">
-          <span class="kpi-icon" style="background:var(--green-100); color:var(--green-700);">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 22v-14M12 8l4 4M12 8L8 12M4 4h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <div><b id="kpiEconomia">—</b><span>Economia no mês</span></div>
-        </div>
-        <div class="kpi-wide">
-          <span class="kpi-icon" style="background:var(--amber-100); color:var(--amber);">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <div><b id="kpiSalvos">—</b><span>Produtos salvos</span></div>
-        </div>
-      </div>
-
-      <div class="panel-grid">
-        <div class="panel">
-          <h3>Resumo do mês</h3>
-          <div class="bar-chart" id="barChart"></div>
-          <div class="chart-legend">
-            <span><span class="legend-dot" style="background:var(--terracotta);"></span> Perdas (R$)</span>
-            <span><span class="legend-dot" style="background:var(--green-500);"></span> Recuperado (R$)</span>
+    <div id="dashContent" hidden>
+      <!-- Linha da validade: do que já venceu ao que está em dia -->
+      <section class="pulse" aria-labelledby="pulseTitle">
+        <div class="pulse-head">
+          <div>
+            <div class="pulse-figure">
+              <span class="pulse-count" id="kpiAtencao">—</span>
+              <h2 id="pulseTitle">produtos pedem atenção</h2>
+            </div>
+            <p class="pulse-sub" id="pulseSub"></p>
           </div>
+          <a href="#" class="btn btn-accent soon-link">Ver vencimentos</a>
         </div>
-        <div class="panel">
-          <h3>Principais motivos de perdas</h3>
-          <div class="donut-wrap">
-            <div class="donut" id="donutChart"></div>
-            <div class="donut-legend" id="donutLegend"></div>
+
+        <ol class="track" aria-label="Situação de validade do estoque">
+          <li class="stop stop-vencido"><b id="kpiVencidos">—</b><span>Vencidos</span></li>
+          <li class="stop stop-hoje is-now"><b id="kpiHoje">—</b><span>Vencendo hoje</span></li>
+          <li class="stop stop-prox"><b id="kpiProximos">—</b><span>Próximos do vencimento</span></li>
+          <li class="stop stop-ok"><b id="kpiEmDia">—</b><span>Em dia, de <strong id="kpiProdutos">—</strong> produtos cadastrados</span></li>
+        </ol>
+      </section>
+
+      <!-- Dinheiro -->
+      <section class="ledger" aria-label="Resultados financeiros">
+        <div class="ledger-cell">
+          <span class="ledger-label" style="--c:var(--beet)"><i></i>Valor em risco</span>
+          <b class="ledger-value" id="kpiValorRisco">—</b>
+          <span class="ledger-note">Em produtos perto de vencer</span>
+        </div>
+        <div class="ledger-cell">
+          <span class="ledger-label" style="--c:var(--leaf)"><i></i>Economia no mês</span>
+          <b class="ledger-value" id="kpiEconomia">—</b>
+          <span class="ledger-note up" id="kpiEconomiaNote"></span>
+        </div>
+        <div class="ledger-cell">
+          <span class="ledger-label" style="--c:var(--mango)"><i></i>Produtos salvos</span>
+          <b class="ledger-value" id="kpiSalvos">—</b>
+          <span class="ledger-note">Neste mês</span>
+        </div>
+      </section>
+
+      <!-- Gráficos -->
+      <div class="panels">
+        <section class="panel" aria-labelledby="resumoTitle">
+          <div class="panel-head">
+            <div>
+              <h3 id="resumoTitle">Resumo do mês</h3>
+              <p class="panel-sub">Perdas e valor recuperado por semana</p>
+            </div>
+            <div class="totals">
+              <div class="total" style="--c:var(--beet)"><span class="key"><i></i>Perdas</span><b id="totalPerdas">—</b></div>
+              <div class="total" style="--c:var(--leaf)"><span class="key"><i></i>Recuperado</span><b id="totalRecuperado">—</b></div>
+            </div>
           </div>
-        </div>
+          <div class="chart" id="barChart" role="img"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="motivosTitle">
+          <div class="panel-head">
+            <div>
+              <h3 id="motivosTitle">Principais motivos de perdas</h3>
+              <p class="panel-sub">Participação de cada motivo no total perdido</p>
+            </div>
+          </div>
+          <div class="mix" id="donutChart" aria-hidden="true"></div>
+          <ul class="reasons" id="donutLegend"></ul>
+        </section>
       </div>
     </div>
   </main>
 </div>
 
-<!-- ================= TOAST ================= -->
-<div class="toast" id="toast">
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span id="toastMsg">Feito!</span>
 </div>
 
-<script src="js/mock-api.js"></script>
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/dashboard.js"></script>
+<script src="js/mock-api.js?v=3"></script>
+<script src="js/api.js?v=3"></script>
+<script src="js/Auth.js?v=3"></script>
+<script src="js/Dashboard.js?v=3"></script>
 </body>
 </html>
