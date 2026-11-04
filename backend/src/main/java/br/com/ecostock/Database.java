@@ -7,6 +7,16 @@ import java.sql.SQLException;
 public final class Database {
     private Database() {}
 
+    // Registra o driver explicitamente: no `mvn exec:java` o carregamento
+    // automático (ServiceLoader) não enxerga o driver e a conexão falha.
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("Driver do MySQL não encontrado no classpath.", e);
+        }
+    }
+
     public static Connection connect() throws SQLException {
         String url = System.getenv().getOrDefault(
                 "DB_URL",
