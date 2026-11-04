@@ -1,0 +1,136 @@
+/* =========================================================
+   EcoStock — Login
+   Depende de base.css (carregado antes).
+   ========================================================= */
+
+.auth{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+}
+
+/* ---------- Lado da marca ---------- */
+.auth-brand{
+  background:var(--spruce);
+  color:var(--on-dark);
+  padding:44px 56px 48px;
+  display:flex;
+  flex-direction:column;
+  gap:48px;
+}
+.auth-brand-body{margin-top:auto; max-width:520px;}
+.auth-brand h2{
+  color:#fff;
+  font-size:40px;
+  line-height:1.08;
+  letter-spacing:-0.035em;
+}
+.auth-brand-body > p{margin-top:16px; color:var(--on-dark-2); font-size:16px; max-width:44ch;}
+
+/* Prévia da linha da validade (mesma peça do dashboard) */
+.preview{
+  margin-top:40px;
+  padding:22px 24px 24px;
+  border-radius:var(--r-md);
+  background:var(--spruce-2);
+  border:1px solid rgba(205,235,216,.12);
+}
+.preview-title{font-size:14px; color:var(--on-dark-2);}
+.preview-title b{font-family:var(--display); color:#fff; font-size:20px; letter-spacing:-0.02em; margin-right:6px;}
+.preview-track{
+  margin-top:20px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  position:relative;
+}
+.preview-track::before{
+  content:'';
+  position:absolute;
+  left:6px; right:0; top:5px;
+  height:2px;
+  border-radius:2px;
+  background:linear-gradient(90deg, var(--beet-on-dark), var(--hoje-on-dark) 30%, var(--mango-on-dark) 58%, var(--leaf-on-dark) 85%, rgba(124,203,159,.15));
+}
+.preview-track li{position:relative;}
+.preview-track li::before{
+  content:'';
+  display:block;
+  width:12px; height:12px;
+  border-radius:50%;
+  background:var(--spruce-2);
+  border:2px solid var(--dot);
+  margin-bottom:12px;
+  position:relative;
+}
+.preview-track b{display:block; font-family:var(--display); font-size:24px; line-height:1; color:var(--dot); letter-spacing:-0.02em;}
+.preview-track span{display:block; margin-top:5px; font-size:13px; color:var(--on-dark-2);}
+
+/* ---------- Lado do formulário ---------- */
+.auth-form-side{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:48px 32px;
+}
+.auth-form{width:100%; max-width:400px;}
+.auth-back{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:40px;
+  font-size:14px;
+  font-weight:500;
+  color:var(--ink-2);
+}
+.auth-back:hover{color:var(--ink);}
+.auth-form h1{font-size:34px; letter-spacing:-0.03em;}
+.auth-sub{margin-top:8px; margin-bottom:30px; color:var(--ink-2);}
+
+.pw-wrap{position:relative;}
+.pw-wrap .input{padding-right:46px;}
+.pw-toggle{
+  position:absolute;
+  right:6px; top:50%;
+  transform:translateY(-50%);
+  width:34px; height:34px;
+  border:none;
+  border-radius:8px;
+  background:none;
+  color:var(--ink-3);
+  display:flex; align-items:center; justify-content:center;
+}
+.pw-toggle:hover{background:var(--surface-2); color:var(--ink);}
+
+.field-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:4px 0 22px;
+  font-size:14px;
+}
+.remember{display:flex; align-items:center; gap:8px; color:var(--ink-2); cursor:pointer;}
+.remember input{width:16px; height:16px; margin:0; accent-color:var(--leaf);}
+.text-link{color:var(--leaf); font-weight:600;}
+.text-link:hover{text-decoration:underline; text-underline-offset:3px;}
+
+.auth-hint{
+  margin-top:22px;
+  padding:14px 16px;
+  border-radius:12px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  font-size:14px;
+  color:var(--ink-2);
+}
+.auth-hint b{color:var(--ink); font-weight:600;}
+.auth-hint code{font-family:inherit; font-weight:600; color:var(--ink);}
+.auth-foot{margin-top:24px; text-align:center; font-size:14px; color:var(--ink-2);}
+
+@media (max-width:960px){
+  .auth{grid-template-columns:1fr;}
+  .auth-brand{padding:22px 20px; gap:0;}
+  .auth-brand-body{display:none;}
+  .auth-form-side{padding:36px 20px 56px; align-items:flex-start;}
+  .auth-back{margin-bottom:28px;}
+}

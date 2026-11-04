@@ -2,9 +2,20 @@
 const menuToggle = document.getElementById('menuToggle');
 const menuClose = document.getElementById('menuClose');
 const mobilePanel = document.getElementById('mobilePanel');
-menuToggle.addEventListener('click', () => mobilePanel.classList.add('open'));
-menuClose.addEventListener('click', () => mobilePanel.classList.remove('open'));
-mobilePanel.querySelectorAll('.mp-link').forEach(a => a.addEventListener('click', () => mobilePanel.classList.remove('open')));
+function setMenu(open){
+  mobilePanel.classList.toggle('open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+menuToggle.addEventListener('click', () => setMenu(true));
+menuClose.addEventListener('click', () => setMenu(false));
+mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+// ---------- Header: borda ao rolar ----------
+const siteHeader = document.getElementById('siteHeader');
+const onScroll = () => siteHeader.classList.toggle('scrolled', window.scrollY > 8);
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
 
 // ---------- Toast helper ----------
 const toast = document.getElementById('toast');
@@ -36,7 +47,7 @@ function closeSignup(){ signupOverlay.classList.remove('open'); }
 
 ['navCtaBtn','mobileCtaBtn','heroCtaBtn','finalCtaBtn'].forEach(id=>{
   const el = document.getElementById(id);
-  if(el) el.addEventListener('click', () => { mobilePanel.classList.remove('open'); openSignup(); });
+  if(el) el.addEventListener('click', () => { setMenu(false); openSignup(); });
 });
 document.querySelectorAll('.plan-btn').forEach(btn=>{
   btn.addEventListener('click', () => {
@@ -144,7 +155,7 @@ demoForm.addEventListener('submit', async (e) => {
     await Api.demo(payload);
 
     closeDemo();
-    showToast('Demonstração agendada — nosso time vai te chamar em breve.');
+    showToast('Demonstração agendada. Nosso time vai te chamar pelo WhatsApp.');
     demoForm.reset();
   } catch (err) {
     showToast(err.message || 'Erro ao conectar com o servidor. Tente novamente.');
@@ -164,9 +175,10 @@ const tabButtons = document.querySelectorAll('.tab-btn');
 const tabPanels = document.querySelectorAll('.tab-panel');
 tabButtons.forEach(btn => {
   btn.addEventListener('click', () => {
-    tabButtons.forEach(b => b.classList.remove('active'));
+    tabButtons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
     tabPanels.forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
     document.querySelector(`.tab-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
   });
 });
@@ -180,10 +192,12 @@ document.querySelectorAll('.faq-item').forEach(item => {
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(other => {
       other.classList.remove('open');
+      other.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
       other.querySelector('.faq-a').style.maxHeight = null;
     });
     if(!isOpen){
       item.classList.add('open');
+      q.setAttribute('aria-expanded', 'true');
       a.style.maxHeight = a.scrollHeight + 'px';
     }
   });
@@ -195,15 +209,25 @@ const toggleYearly = document.getElementById('toggleYearly');
 const priceVals = document.querySelectorAll('.price-val');
 toggleMonthly.addEventListener('click', () => {
   toggleMonthly.classList.add('active'); toggleYearly.classList.remove('active');
+  toggleMonthly.setAttribute('aria-pressed', 'true'); toggleYearly.setAttribute('aria-pressed', 'false');
   priceVals.forEach(v => v.textContent = 'R$ ' + v.dataset.m);
 });
 toggleYearly.addEventListener('click', () => {
   toggleYearly.classList.add('active'); toggleMonthly.classList.remove('active');
+  toggleYearly.setAttribute('aria-pressed', 'true'); toggleMonthly.setAttribute('aria-pressed', 'false');
   priceVals.forEach(v => v.textContent = 'R$ ' + v.dataset.y);
 });
 
 // ---------- Close mobile menu on resize to desktop ----------
-window.addEventListener('resize', () => { if(window.innerWidth > 720) mobilePanel.classList.remove('open'); });
+window.addEventListener('resize', () => { if(window.innerWidth > 760) setMenu(false); });
+
+// ---------- Esc fecha modais e menu ----------
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  closeSignup();
+  closeDemo();
+  setMenu(false);
+});
 
 // ---------- Abre o cadastro automaticamente se a URL vier com #cadastro ----------
 // (usado pelo link "Cadastre-se" da tela de login)
