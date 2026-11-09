@@ -18,9 +18,11 @@ public final class Database {
     }
 
     public static Connection connect() throws SQLException {
+        // createDatabaseIfNotExist: o banco "ecostock" é criado sozinho na primeira execução.
         String url = System.getenv().getOrDefault(
                 "DB_URL",
                 "jdbc:mysql://localhost:3306/ecostock?serverTimezone=America/Sao_Paulo"
+                        + "&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
         );
         String user = System.getenv().getOrDefault("DB_USER", "root");
         String password = System.getenv().getOrDefault("DB_PASSWORD", "");
