@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produtos — EcoStock</title>
+<link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=5">
+<link rel="stylesheet" href="css/dashboard.css?v=5">
+<link rel="stylesheet" href="css/app.css?v=5">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Produtos</h1>
+        <p class="page-sub">Catálogo da loja com preço de custo, preço de venda e o estoque somado de todos os lotes.</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" id="novoProduto">Novo produto</button>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="seg" id="situacoes" aria-label="Situação do estoque"></div>
+    </div>
+
+    <div class="filterbar" id="filtros">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input class="input" type="search" id="fBusca" placeholder="Buscar pelo nome do produto" aria-label="Buscar produto">
+      </label>
+      <label class="pick">Categoria<select id="fCategoria"></select></label>
+      <label class="pick">Unidade<select id="fUnidade"></select></label>
+      <label class="pick">Ordenar<select id="fOrdem" data-keep="1">
+        <option value="nome">Nome (A a Z)</option>
+        <option value="validade">Validade mais próxima</option>
+        <option value="estoque">Maior estoque</option>
+        <option value="margem">Maior margem</option>
+        <option value="preco">Maior preço de venda</option>
+      </select></label>
+      <div class="filter-meta" id="fMeta"></div>
+    </div>
+
+    <div class="table-card" id="tabela"><div class="state">Carregando produtos...</div></div>
+  </main>
+</div>
+
+<!-- Janela: produto -->
+<dialog class="sheet" id="produtoDialog" aria-labelledby="produtoTitle">
+  <form id="produtoForm" method="dialog" novalidate>
+    <div class="sheet-head">
+      <div>
+        <h2 id="produtoTitle">Novo produto</h2>
+        <p>Os preços servem para calcular o valor em risco e o valor recuperado.</p>
+      </div>
+      <button type="button" class="sheet-close" data-close aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="field">
+        <label for="pNome">Nome do produto</label>
+        <input class="input" id="pNome" maxlength="120" placeholder="Ex.: Iogurte Natural 170g" required>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="pCategoria">Categoria</label>
+          <input class="input" id="pCategoria" list="listaCategorias" maxlength="80" placeholder="Ex.: Laticínios">
+          <datalist id="listaCategorias"></datalist>
+        </div>
+        <div class="field">
+          <label for="pUnidade">Unidade</label>
+          <select class="input" id="pUnidade">
+            <option value="un">Unidade (un)</option>
+            <option value="kg">Quilo (kg)</option>
+            <option value="g">Grama (g)</option>
+            <option value="L">Litro (L)</option>
+            <option value="ml">Mililitro (ml)</option>
+            <option value="dz">Dúzia (dz)</option>
+            <option value="cx">Caixa (cx)</option>
+            <option value="pct">Pacote (pct)</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="pCusto">Preço de custo (R$)</label>
+          <input class="input" id="pCusto" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00" required>
+        </div>
+        <div class="field">
+          <label for="pVenda">Preço de venda (R$)</label>
+          <input class="input" id="pVenda" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00" required>
+        </div>
+      </div>
+      <p class="hint" id="pMargem"></p>
+      <p class="form-error" role="alert"></p>
+    </div>
+    <div class="sheet-foot">
+      <button type="button" class="btn btn-quiet" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary" id="pSubmit">Salvar produto</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="js/api.js?v=5"></script>
+<script src="js/Auth.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
+<script src="js/produtos.js?v=5"></script>
+</body>
+</html>

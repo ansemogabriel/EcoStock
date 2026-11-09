@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vencimentos — EcoStock</title>
+<link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=5">
+<link rel="stylesheet" href="css/dashboard.css?v=5">
+<link rel="stylesheet" href="css/app.css?v=5">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Vencimentos</h1>
+        <p class="page-sub">O EcoStock emite um alerta quando um lote vence em até 7 dias, sugere um desconto e registra o que foi feito com cada produto.</p>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="seg" role="tablist" aria-label="Alertas">
+        <button class="active" data-view="abertos" role="tab" aria-selected="true">Precisam de ação <span class="seg-count" id="countAbertos">0</span></button>
+        <button data-view="historico" role="tab" aria-selected="false">Histórico</button>
+      </div>
+      <a href="lotes.html" class="btn-mini">Ver todos os lotes</a>
+    </div>
+
+    <div class="filterbar" id="filtrosAbertos">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input class="input" type="search" id="aBusca" placeholder="Buscar produto ou lote" aria-label="Buscar produto ou lote">
+      </label>
+      <label class="pick">Urgência<select id="aUrgencia">
+        <option value="">Todas</option>
+        <option value="vencido">Vencidos</option>
+        <option value="hoje">Vencem hoje</option>
+        <option value="urgente">1 a 3 dias</option>
+        <option value="proximo">4 a 7 dias</option>
+      </select></label>
+      <label class="pick">Decisão<select id="aDecisao">
+        <option value="">Todas</option>
+        <option value="pendente">Aguardando decisão</option>
+        <option value="aplicada">Promoção aplicada</option>
+        <option value="recusada">Sem promoção</option>
+        <option value="descarte">Retirar da venda</option>
+      </select></label>
+      <label class="pick">Categoria<select id="aCategoria"></select></label>
+      <label class="pick">Ordenar<select id="aOrdem" data-keep="1">
+        <option value="urgencia">Mais urgentes</option>
+        <option value="risco">Maior valor em risco</option>
+        <option value="produto">Produto (A a Z)</option>
+      </select></label>
+      <div class="filter-meta"></div>
+    </div>
+
+    <div class="filterbar" id="filtrosHistorico" hidden>
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input class="input" type="search" id="hBusca" placeholder="Buscar produto ou lote" aria-label="Buscar produto ou lote">
+      </label>
+      <label class="pick">Resolvidos<select id="hPeriodo">
+        <option value="">Em qualquer data</option>
+        <option value="7">Nos últimos 7 dias</option>
+        <option value="30">Nos últimos 30 dias</option>
+        <option value="90">Nos últimos 90 dias</option>
+      </select></label>
+      <label class="pick">Resultado<select id="hResultado">
+        <option value="">Todos</option>
+        <option value="venda">Com venda</option>
+        <option value="descarte">Com descarte</option>
+        <option value="soVenda">Só venda, sem perda</option>
+        <option value="soDescarte">Só descarte</option>
+      </select></label>
+      <label class="pick">Decisão<select id="hDecisao">
+        <option value="">Todas</option>
+        <option value="aplicada">Promoção aplicada</option>
+        <option value="recusada">Sem promoção</option>
+      </select></label>
+      <label class="pick">Categoria<select id="hCategoria"></select></label>
+      <label class="pick">Ordenar<select id="hOrdem" data-keep="1">
+        <option value="recentes">Mais recentes</option>
+        <option value="recuperado">Maior valor recuperado</option>
+        <option value="perda">Maior perda</option>
+      </select></label>
+      <div class="filter-meta"></div>
+    </div>
+
+    <div id="view" aria-live="polite"><div class="state">Carregando alertas...</div></div>
+  </main>
+</div>
+
+<!-- Janela: registrar resultado -->
+<dialog class="sheet" id="resultadoDialog" aria-labelledby="resultadoTitle">
+  <form id="resultadoForm" method="dialog" novalidate>
+    <div class="sheet-head">
+      <div>
+        <h2 id="resultadoTitle">Registrar resultado</h2>
+        <p id="resultadoSub"></p>
+      </div>
+      <button type="button" class="sheet-close" data-close aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="preview-box" id="resultadoInfo"></div>
+      <div class="grid-3">
+        <div class="field">
+          <label for="resVendido">Vendido</label>
+          <div class="input-suffix"><input class="input" id="resVendido" type="number" min="0" step="0.001" inputmode="decimal" placeholder="0"><span class="res-unit">un</span></div>
+        </div>
+        <div class="field">
+          <label for="resDoado">Doado</label>
+          <div class="input-suffix"><input class="input" id="resDoado" type="number" min="0" step="0.001" inputmode="decimal" placeholder="0"><span class="res-unit">un</span></div>
+        </div>
+        <div class="field">
+          <label for="resDescartado">Descartado</label>
+          <div class="input-suffix"><input class="input" id="resDescartado" type="number" min="0" step="0.001" inputmode="decimal" placeholder="0"><span class="res-unit">un</span></div>
+        </div>
+      </div>
+      <span class="hint" id="resVendidoHint" style="margin:-8px 0 12px"></span>
+      <div class="field" id="instituicaoField" style="display:none">
+        <label for="resInstituicao">Para quem foi doado <span class="optional">opcional</span></label>
+        <input class="input" id="resInstituicao" maxlength="120" placeholder="Ex.: banco de alimentos, instituição do bairro">
+      </div>
+      <div class="field" id="motivoField">
+        <label for="resMotivo">Motivo do descarte</label>
+        <select class="input" id="resMotivo">
+          <option>Vencido</option>
+          <option>Danificado</option>
+          <option>Excesso de estoque</option>
+          <option>Armazenamento inadequado</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="resObs">Como foi a reação e o que a equipe fez <span class="optional">opcional</span></label>
+        <textarea class="input" id="resObs" rows="2" maxlength="300" placeholder="Ex.: colocamos na geladeira da frente com etiqueta de desconto e avisamos os clientes no caixa."></textarea>
+        <span class="hint">Aparece no histórico e no relatório de validação.</span>
+      </div>
+      <p class="hint" id="resResumo"></p>
+      <p class="form-error" role="alert"></p>
+    </div>
+    <div class="sheet-foot">
+      <button type="button" class="btn btn-quiet" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary" id="resSubmit">Registrar resultado</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="js/api.js?v=5"></script>
+<script src="js/Auth.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
+<script src="js/vencimentos.js?v=5"></script>
+</body>
+</html>

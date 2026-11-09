@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurações — EcoStock</title>
+<link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=5">
+<link rel="stylesheet" href="css/dashboard.css?v=5">
+<link rel="stylesheet" href="css/app.css?v=5">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Configurações</h1>
+        <p class="page-sub">Dados da loja e as regras que o EcoStock usa para emitir alertas e sugerir descontos.</p>
+      </div>
+    </header>
+
+    <div class="settings">
+      <section class="panel" aria-labelledby="lojaTitle">
+        <h3 id="lojaTitle">Sua loja</h3>
+        <p class="panel-sub">Informações da conta conectada.</p>
+        <dl class="kv">
+          <dt>Loja</dt><dd id="cLoja">—</dd>
+          <dt>Responsável</dt><dd id="cNome">—</dd>
+          <dt>E-mail</dt><dd id="cEmail">—</dd>
+          <dt>Plano</dt><dd id="cPlano">—</dd>
+        </dl>
+        <div style="margin-top:22px">
+          <button class="btn btn-quiet btn-sm" id="sair">Sair da conta</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="regrasTitle">
+        <h3 id="regrasTitle">Regras de alerta</h3>
+        <p class="panel-sub">Lotes que vencem em até 7 dias recebem alerta automático.</p>
+        <div class="table-card" style="margin-top:16px" id="regras"></div>
+      </section>
+
+      <section class="panel" id="demoPanel" hidden aria-labelledby="demoTitle">
+        <h3 id="demoTitle">Dados de demonstração</h3>
+        <p class="panel-sub">Esta é a conta de demonstração. Restaurar apaga os produtos, lotes, alertas e perdas desta loja e recria o exemplo inicial, com validades contadas a partir de hoje.</p>
+        <div style="margin-top:20px">
+          <button class="btn btn-danger btn-sm" id="restaurar">Restaurar dados de demonstração</button>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="js/api.js?v=5"></script>
+<script src="js/Auth.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
+<script>
+(async function () {
+  const me = await App.init('configuracoes');
+  document.getElementById('cLoja').textContent = me.loja || '—';
+  document.getElementById('cNome').textContent = me.nome || '—';
+  document.getElementById('cEmail').textContent = me.email || '—';
+  document.getElementById('cPlano').textContent = me.plano || '—';
+  document.getElementById('sair').addEventListener('click', () => App.sair());
+
+  const chave = { PROXIMO: 'proximo', URGENTE: 'urgente', VENCE_HOJE: 'hoje', VENCIDO: 'vencido' };
+  document.getElementById('regras').innerHTML = `<table class="data">
+    <thead><tr><th>Faixa</th><th class="num">Desconto</th><th>Ação sugerida</th></tr></thead>
+    <tbody>${(me.regras || []).map(r => `<tr>
+      <td><span class="chip ${chave[r.tipo]}">${r.faixa}</span></td>
+      <td class="num strong">${r.desconto ? r.desconto + '%' : '—'}</td>
+      <td>${r.acao}</td></tr>`).join('')}</tbody>
+  </table>`;
+
+  if (me.demo) {
+    document.getElementById('demoPanel').hidden = false;
+    const btn = document.getElementById('restaurar');
+    btn.addEventListener('click', async () => {
+      const ok = await App.confirmar({
+        titulo: 'Restaurar os dados de demonstração?',
+        texto: 'Tudo o que foi registrado nesta conta (produtos, lotes, alertas, promoções e perdas) será apagado e o exemplo inicial será recriado.',
+        confirmar: 'Restaurar dados', perigo: true
+      });
+      if (!ok) return;
+      try {
+        await App.busy(btn, 'Restaurando...', () => Api.post('/demo/restaurar'));
+        App.toast('Dados de demonstração restaurados.');
+        App.refreshBadge();
+      } catch (err) {
+        App.toast(err.message);
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

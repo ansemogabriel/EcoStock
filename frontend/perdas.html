@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perdas — EcoStock</title>
+<link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=5">
+<link rel="stylesheet" href="css/dashboard.css?v=5">
+<link rel="stylesheet" href="css/app.css?v=5">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Perdas</h1>
+        <p class="page-sub">Tudo o que foi descartado, com o motivo e o valor de custo perdido. Cada registro dá baixa no lote.</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" id="novaPerda">Registrar perda</button>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="seg" id="periodo" aria-label="Período">
+        <button type="button" data-dias="7">7 dias</button>
+        <button type="button" class="active" data-dias="30">30 dias</button>
+        <button type="button" data-dias="90">90 dias</button>
+        <button type="button" data-dias="365">12 meses</button>
+      </div>
+    </div>
+
+    <section class="ledger" aria-label="Resumo do período" style="margin:0 0 14px">
+      <div class="ledger-cell">
+        <span class="ledger-label" style="--c:var(--beet)"><i></i>Valor perdido</span>
+        <b class="ledger-value" id="kValor">—</b>
+        <span class="ledger-note">Preço de custo dos itens descartados</span>
+      </div>
+      <div class="ledger-cell">
+        <span class="ledger-label" style="--c:var(--mango)"><i></i>Registros de perda</span>
+        <b class="ledger-value" id="kRegistros">—</b>
+        <span class="ledger-note" id="kRegistrosNote"></span>
+      </div>
+      <div class="ledger-cell">
+        <span class="ledger-label" style="--c:var(--slate)"><i></i>Principal motivo</span>
+        <b class="ledger-value" id="kMotivo">—</b>
+        <span class="ledger-note" id="kMotivoNote"></span>
+      </div>
+    </section>
+
+    <div class="filterbar" id="filtros">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input class="input" type="search" id="fBusca" placeholder="Buscar produto ou lote" aria-label="Buscar produto ou lote">
+      </label>
+      <label class="pick">Motivo<select id="fMotivo"></select></label>
+      <label class="pick">Origem<select id="fOrigem">
+        <option value="">Todas</option>
+        <option value="alerta">Alerta de validade</option>
+        <option value="manual">Registro manual</option>
+      </select></label>
+      <label class="pick">Categoria<select id="fCategoria"></select></label>
+      <label class="pick">Ordenar<select id="fOrdem" data-keep="1">
+        <option value="recentes">Mais recentes</option>
+        <option value="valor">Maior valor perdido</option>
+        <option value="quantidade">Maior quantidade</option>
+        <option value="produto">Produto (A a Z)</option>
+      </select></label>
+      <div class="filter-meta"></div>
+    </div>
+
+    <div class="table-card" id="tabela"><div class="state">Carregando perdas...</div></div>
+  </main>
+</div>
+
+<!-- Janela: registrar perda -->
+<dialog class="sheet" id="perdaDialog" aria-labelledby="perdaTitle">
+  <form id="perdaForm" method="dialog" novalidate>
+    <div class="sheet-head">
+      <div>
+        <h2 id="perdaTitle">Registrar perda</h2>
+        <p>A quantidade sai do saldo do lote e entra no relatório de perdas.</p>
+      </div>
+      <button type="button" class="sheet-close" data-close aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="field">
+        <label for="peLote">Lote</label>
+        <select class="input" id="peLote" required></select>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="peQtd">Quantidade descartada</label>
+          <div class="input-suffix"><input class="input" id="peQtd" type="number" min="0" step="0.001" inputmode="decimal" required><span id="peUn">un</span></div>
+        </div>
+        <div class="field">
+          <label for="peMotivo">Motivo</label>
+          <select class="input" id="peMotivo">
+            <option>Vencido</option>
+            <option>Danificado</option>
+            <option>Excesso de estoque</option>
+            <option>Armazenamento inadequado</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="preview-box" id="pePreview" hidden></div>
+      <p class="form-error" role="alert"></p>
+    </div>
+    <div class="sheet-foot">
+      <button type="button" class="btn btn-quiet" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-danger" id="peSubmit">Registrar perda</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="js/api.js?v=5"></script>
+<script src="js/Auth.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
+<script src="js/perdas.js?v=5"></script>
+</body>
+</html>

@@ -103,10 +103,6 @@ realSignupForm.addEventListener('submit', async (e) => {
 
     signupForm.style.display = 'none';
     signupSuccess.classList.add('show');
-
-    if (data._mock) {
-      showToast('Back-end offline: conta salva neste navegador (modo local).');
-    }
   } catch (err) {
     signupError.textContent = err.message || 'Erro ao conectar com o servidor. Tente novamente.';
     signupError.classList.add('show');

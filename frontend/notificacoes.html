@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notificações — EcoStock</title>
+<link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=6">
+<link rel="stylesheet" href="css/dashboard.css?v=6">
+<link rel="stylesheet" href="css/app.css?v=6">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Notificações</h1>
+        <p class="page-sub">Avisos do sistema sobre a validade dos lotes e tudo o que a equipe fez com cada alerta.</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-quiet btn-sm" id="marcarLidas" disabled>Marcar todas como lidas</button>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="seg" id="segLeitura" aria-label="Leitura">
+        <button type="button" class="active" data-l="nao">Não lidas <span class="seg-count" id="cNao">0</span></button>
+        <button type="button" data-l="todas">Todas <span class="seg-count" id="cTodas">0</span></button>
+      </div>
+    </div>
+
+    <div class="filterbar" id="filtros">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input class="input" type="search" id="fBusca" placeholder="Buscar produto, lote ou mensagem" aria-label="Buscar notificação">
+      </label>
+      <label class="pick">Tipo<select id="fTipo">
+        <option value="">Todos</option>
+        <option value="sistema">Avisos do sistema</option>
+        <option value="equipe">Ações da equipe</option>
+        <option value="ALERTA_EMITIDO">Alerta emitido</option>
+        <option value="ALERTA_ATUALIZADO">Urgência aumentou</option>
+        <option value="PROMOCAO_APLICADA">Promoção aplicada</option>
+        <option value="PROMOCAO_RECUSADA">Promoção não aplicada</option>
+        <option value="RESULTADO">Resultado registrado</option>
+        <option value="PERDA_REGISTRADA">Perda registrada</option>
+        <option value="ALERTA_ENCERRADO">Alerta encerrado</option>
+      </select></label>
+      <label class="pick">Período<select id="fPeriodo">
+        <option value="">Últimos 90 dias</option>
+        <option value="1">Hoje</option>
+        <option value="7">Últimos 7 dias</option>
+        <option value="30">Últimos 30 dias</option>
+      </select></label>
+      <label class="pick">Categoria<select id="fCategoria"></select></label>
+      <div class="filter-meta"></div>
+    </div>
+
+    <div id="lista" aria-live="polite"><div class="state">Carregando notificações...</div></div>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="js/api.js?v=6"></script>
+<script src="js/Auth.js?v=6"></script>
+<script src="js/app.js?v=6"></script>
+<script src="js/notificacoes.js?v=6"></script>
+</body>
+</html>
