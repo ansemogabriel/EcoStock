@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promoções — EcoStock</title>
+<link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=5">
+<link rel="stylesheet" href="css/dashboard.css?v=5">
+<link rel="stylesheet" href="css/app.css?v=5">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Promoções</h1>
+        <p class="page-sub">Descontos sugeridos pelo EcoStock para vender antes do vencimento, e o resultado de cada um.</p>
+      </div>
+    </header>
+
+    <section class="ledger" aria-label="Resumo das promoções" style="margin:0 0 18px">
+      <div class="ledger-cell">
+        <span class="ledger-label" style="--c:var(--mango)"><i></i>Aguardando decisão</span>
+        <b class="ledger-value" id="kPendentes">—</b>
+        <span class="ledger-note">Sugestões que ainda não foram aplicadas nem recusadas</span>
+      </div>
+      <div class="ledger-cell">
+        <span class="ledger-label" style="--c:var(--leaf)"><i></i>Promoções aplicadas</span>
+        <b class="ledger-value" id="kAplicadas">—</b>
+        <span class="ledger-note" id="kAplicadasNote"></span>
+      </div>
+      <div class="ledger-cell">
+        <span class="ledger-label" style="--c:var(--spruce)"><i></i>Vendido com desconto</span>
+        <b class="ledger-value" id="kValor">—</b>
+        <span class="ledger-note">Valor que voltou para o caixa em vez de virar perda</span>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="seg" id="filtrosStatus" aria-label="Situação da promoção"></div>
+    </div>
+
+    <div class="filterbar" id="filtros">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input class="input" type="search" id="fBusca" placeholder="Buscar produto ou lote" aria-label="Buscar produto ou lote">
+      </label>
+      <label class="pick">Desconto<select id="fDesconto">
+        <option value="">Qualquer</option>
+        <option value="15">Até 15%</option>
+        <option value="30">De 16% a 30%</option>
+        <option value="31">Acima de 30%</option>
+      </select></label>
+      <label class="pick">Criada<select id="fPeriodo">
+        <option value="">Em qualquer data</option>
+        <option value="7">Nos últimos 7 dias</option>
+        <option value="30">Nos últimos 30 dias</option>
+        <option value="90">Nos últimos 90 dias</option>
+      </select></label>
+      <label class="pick">Categoria<select id="fCategoria"></select></label>
+      <label class="pick">Ordenar<select id="fOrdem" data-keep="1">
+        <option value="recentes">Mais recentes</option>
+        <option value="validade">Validade mais próxima</option>
+        <option value="desconto">Maior desconto</option>
+        <option value="vendido">Maior valor vendido</option>
+      </select></label>
+      <div class="filter-meta"></div>
+    </div>
+
+    <div class="table-card" id="tabela"><div class="state">Carregando promoções...</div></div>
+
+    <section class="panel" style="margin-top:18px" aria-labelledby="regrasTitle">
+      <h3 id="regrasTitle">Como o desconto é sugerido</h3>
+      <p class="panel-sub">Quanto mais perto do vencimento, maior o desconto. Você pode ajustar o valor antes de aplicar.</p>
+      <div class="table-card" style="margin-top:16px" id="regras"></div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="js/api.js?v=5"></script>
+<script src="js/Auth.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
+<script src="js/promocoes.js?v=5"></script>
+</body>
+</html>

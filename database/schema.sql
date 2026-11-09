@@ -1,4 +1,6 @@
--- Estrutura inicial do banco do EcoStock (MySQL).
+-- Estrutura do banco do EcoStock (MySQL).
+-- O back-end executa este arquivo automaticamente ao iniciar
+-- (todas as instruções são idempotentes: CREATE ... IF NOT EXISTS).
 
 CREATE DATABASE IF NOT EXISTS ecostock
   CHARACTER SET utf8mb4
@@ -9,6 +11,7 @@ USE ecostock;
 CREATE TABLE IF NOT EXISTS estabelecimento (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(120) NOT NULL,
+  plano VARCHAR(30) NOT NULL DEFAULT 'Profissional',
   criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -17,10 +20,23 @@ CREATE TABLE IF NOT EXISTS usuario (
   estabelecimento_id INT UNSIGNED NOT NULL,
   nome VARCHAR(120) NOT NULL,
   email VARCHAR(160) NOT NULL UNIQUE,
+  senha_hash VARCHAR(200) NULL,
+  notificacoes_vistas_em DATETIME NULL,
   criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_usuario_estabelecimento
     FOREIGN KEY (estabelecimento_id) REFERENCES estabelecimento(id)
     ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- Sessões de login (token enviado no cabeçalho Authorization)
+CREATE TABLE IF NOT EXISTS sessao (
+  token CHAR(64) PRIMARY KEY,
+  usuario_id INT UNSIGNED NOT NULL,
+  criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  expira_em DATETIME NOT NULL,
+  CONSTRAINT fk_sessao_usuario
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+    ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS produto (
@@ -49,6 +65,7 @@ CREATE TABLE IF NOT EXISTS lote (
   quantidade_atual DECIMAL(10,3) NOT NULL,
   data_validade DATE NOT NULL,
   data_entrada DATE NOT NULL,
+  data_fabricacao DATE NULL,
   CONSTRAINT fk_lote_produto
     FOREIGN KEY (produto_id) REFERENCES produto(id)
     ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -60,12 +77,14 @@ CREATE TABLE IF NOT EXISTS lote (
   INDEX idx_lote_validade (data_validade, quantidade_atual)
 );
 
+-- Alerta de validade: um por lote e por faixa de urgência
 CREATE TABLE IF NOT EXISTS alerta (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   lote_id INT UNSIGNED NOT NULL,
   tipo VARCHAR(40) NOT NULL,
   mensagem VARCHAR(240) NOT NULL,
   status ENUM('ABERTO', 'RESOLVIDO') NOT NULL DEFAULT 'ABERTO',
+  observacao VARCHAR(300) NULL,
   criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   resolvido_em DATETIME,
   CONSTRAINT fk_alerta_lote
@@ -74,9 +93,23 @@ CREATE TABLE IF NOT EXISTS alerta (
   INDEX idx_alerta_lote_status (lote_id, status)
 );
 
+-- Histórico de cada alerta: emissão, decisão do comerciante e resultado
+CREATE TABLE IF NOT EXISTS alerta_evento (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  alerta_id INT UNSIGNED NOT NULL,
+  tipo VARCHAR(40) NOT NULL,
+  descricao VARCHAR(300) NOT NULL,
+  criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_evento_alerta
+    FOREIGN KEY (alerta_id) REFERENCES alerta(id)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  INDEX idx_evento_alerta (alerta_id, criado_em)
+);
+
 CREATE TABLE IF NOT EXISTS promocao (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   lote_id INT UNSIGNED NOT NULL,
+  alerta_id INT UNSIGNED NULL,
   desconto_sugerido DECIMAL(5,2) NOT NULL,
   status ENUM('PENDENTE', 'ACEITA', 'RECUSADA') NOT NULL DEFAULT 'PENDENTE',
   criada_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -94,6 +127,7 @@ CREATE TABLE IF NOT EXISTS perda (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   lote_id INT UNSIGNED NOT NULL,
   usuario_id INT UNSIGNED,
+  alerta_id INT UNSIGNED NULL,
   quantidade DECIMAL(10,3) NOT NULL,
   motivo VARCHAR(180) NOT NULL,
   data_perda DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -107,4 +141,45 @@ CREATE TABLE IF NOT EXISTS perda (
   CONSTRAINT chk_perda_quantidade CHECK (quantidade > 0),
   CONSTRAINT chk_perda_valor CHECK (valor_estimado >= 0),
   INDEX idx_perda_data (data_perda)
+);
+
+-- Vendas feitas a partir de um alerta (o que foi salvo do descarte)
+CREATE TABLE IF NOT EXISTS venda_recuperada (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  lote_id INT UNSIGNED NOT NULL,
+  alerta_id INT UNSIGNED NULL,
+  promocao_id INT UNSIGNED NULL,
+  quantidade DECIMAL(10,3) NOT NULL,
+  valor DECIMAL(10,2) NOT NULL,
+  criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_venda_lote
+    FOREIGN KEY (lote_id) REFERENCES lote(id)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT chk_venda_quantidade CHECK (quantidade > 0),
+  INDEX idx_venda_data (criado_em)
+);
+
+-- Produtos doados a partir de um alerta (destino sustentável, ODS 12)
+CREATE TABLE IF NOT EXISTS doacao (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  lote_id INT UNSIGNED NOT NULL,
+  alerta_id INT UNSIGNED NULL,
+  quantidade DECIMAL(10,3) NOT NULL,
+  instituicao VARCHAR(120) NULL,
+  valor_custo DECIMAL(10,2) NOT NULL,
+  criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_doacao_lote
+    FOREIGN KEY (lote_id) REFERENCES lote(id)
+    ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT chk_doacao_quantidade CHECK (quantidade > 0),
+  INDEX idx_doacao_data (criado_em)
+);
+
+-- Pedidos de demonstração feitos pela landing page
+CREATE TABLE IF NOT EXISTS pedido_demonstracao (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(120) NOT NULL,
+  telefone VARCHAR(40) NOT NULL,
+  negocio VARCHAR(60),
+  criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

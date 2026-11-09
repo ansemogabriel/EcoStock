@@ -1,72 +1,65 @@
 // ---------------------------------------------------------------------------
-// Api — ponto único de acesso aos dados de cadastro/login/demo/dashboard.
+// Api — ponto único de acesso ao back-end Java (MySQL).
 //
-// Tenta falar com o back-end real (Node + Express, /backend/server.js) em
-// http://localhost:3000. Se o servidor não estiver rodando — que é a causa
-// do erro "Failed to fetch" — cai automaticamente no MockAPI (mock-api.js),
-// que simula as mesmas respostas usando localStorage. Assim o site nunca
-// trava por causa do back-end estar offline.
+// Quando a página é aberta pelo próprio back-end (http://localhost:8080),
+// as chamadas vão para /api no mesmo endereço. Se a página for aberta de
+// outro lugar (outra porta ou direto do arquivo), usa http://localhost:8080.
 // ---------------------------------------------------------------------------
 
-const API_BASE_URL = 'http://localhost:3000/api';
-const API_TIMEOUT_MS = 4000;
+const API_BASE_URL = (location.protocol.startsWith('http') && location.port === '8080')
+  ? '/api'
+  : 'http://localhost:8080/api';
 
-// Faz a chamada real. Retorna os dados em caso de sucesso, lança ApiError em
-// caso de erro de negócio (400/401/409...), ou retorna `null` quando o
-// servidor está simplesmente inacessível (para o chamador usar o mock).
-async function realRequest(path, options = {}) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+class ApiError extends Error {
+  constructor(message, status) {
+    super(message);
+    this.status = status;
+  }
+}
 
-  try {
-    const res = await fetch(`${API_BASE_URL}${path}`, {
-      ...options,
-      signal: controller.signal,
-      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) }
-    });
+const Api = {
+  async request(path, { method = 'GET', body } = {}) {
+    const headers = { 'Content-Type': 'application/json' };
+    const token = localStorage.getItem('ecostock_token');
+    if (token) headers.Authorization = `Bearer ${token}`;
+
+    let res;
+    try {
+      res = await fetch(API_BASE_URL + path, {
+        method,
+        headers,
+        body: body === undefined ? undefined : JSON.stringify(body)
+      });
+    } catch (e) {
+      throw new ApiError(
+        'Não foi possível conectar ao servidor do EcoStock. Confira se o back-end está rodando ' +
+        '(na pasta backend: mvn compile exec:java).', 0);
+    }
 
     let data = {};
     try { data = await res.json(); } catch { /* resposta sem corpo JSON */ }
 
     if (!res.ok) {
-      throw new ApiError(data.error || 'Erro ao comunicar com o servidor.', res.status);
+      const message = data.erro || data.error || 'Erro ao comunicar com o servidor.';
+      // Sessão expirada em uma tela interna: volta para o login
+      if (res.status === 401 && token && path !== '/login' && path !== '/logout') {
+        localStorage.removeItem('ecostock_token');
+        localStorage.removeItem('ecostock_user');
+        window.location.href = 'login.html';
+      }
+      throw new ApiError(message, res.status);
     }
     return data;
-  } catch (err) {
-    if (err instanceof ApiError) throw err; // erro de negócio do back-end real: repassa
-    // Qualquer outra falha aqui é "servidor inacessível": rede, CORS, timeout, DNS etc.
-    return null;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-const Api = {
-  async signup(payload) {
-    const result = await realRequest('/signup', { method: 'POST', body: JSON.stringify(payload) });
-    if (result !== null) return result;
-    const mockResult = await MockAPI.signup(payload);
-    return { ...mockResult, _mock: true };
   },
 
-  async login(payload) {
-    const result = await realRequest('/login', { method: 'POST', body: JSON.stringify(payload) });
-    if (result !== null) return result;
-    const mockResult = await MockAPI.login(payload);
-    return { ...mockResult, _mock: true };
-  },
+  get(path) { return this.request(path); },
+  post(path, body) { return this.request(path, { method: 'POST', body: body || {} }); },
+  put(path, body) { return this.request(path, { method: 'PUT', body: body || {} }); },
+  del(path) { return this.request(path, { method: 'DELETE' }); },
 
-  async demo(payload) {
-    const result = await realRequest('/demo', { method: 'POST', body: JSON.stringify(payload) });
-    if (result !== null) return result;
-    return MockAPI.demo(payload);
-  },
-
-  async dashboardSummary(token) {
-    const result = await realRequest('/dashboard/summary', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    if (result !== null) return result;
-    return MockAPI.dashboardSummary(token);
-  }
+  // Atalhos usados pela landing page, login e dashboard
+  signup(payload) { return this.post('/signup', payload); },
+  login(payload) { return this.post('/login', payload); },
+  demo(payload) { return this.post('/demo', payload); },
+  dashboardSummary() { return this.get('/dashboard/summary'); }
 };

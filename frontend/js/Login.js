@@ -64,9 +64,6 @@ loginForm.addEventListener('submit', async (e) => {
     const data = await Api.login(payload);
 
     Auth.setSession(data.token, data.user);
-    if (data._mock) {
-      sessionStorage.setItem('ecostock_mock_notice', '1');
-    }
     window.location.href = 'dashboard.html';
   } catch (err) {
     loginError.textContent = err.message || 'Erro ao conectar com o servidor. Tente novamente.';

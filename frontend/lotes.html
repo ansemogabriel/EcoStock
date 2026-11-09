@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lotes e estoque — EcoStock</title>
+<link rel="icon" type="image/svg+xml" href="img/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css?v=5">
+<link rel="stylesheet" href="css/dashboard.css?v=5">
+<link rel="stylesheet" href="css/app.css?v=5">
+</head>
+<body>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>Lotes e estoque</h1>
+        <p class="page-sub">Cada entrada de mercadoria com a sua validade. Os dias restantes são calculados automaticamente.</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" id="novoLote">Novo lote</button>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="seg" id="segValidade" aria-label="Filtrar por validade"></div>
+      <label class="check-inline"><input type="checkbox" id="mostrarZerados"> Mostrar lotes sem estoque</label>
+    </div>
+
+    <div class="filterbar" id="filtros">
+      <label class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input class="input" type="search" id="fBusca" placeholder="Buscar produto ou código do lote" aria-label="Buscar produto ou lote">
+      </label>
+      <label class="pick">Categoria<select id="fCategoria"></select></label>
+      <label class="pick">Entrada<select id="fEntrada">
+        <option value="">Qualquer data</option>
+        <option value="7">Últimos 7 dias</option>
+        <option value="30">Últimos 30 dias</option>
+      </select></label>
+      <label class="pick">Alerta<select id="fAlerta">
+        <option value="">Todos</option>
+        <option value="com">Com alerta aberto</option>
+        <option value="sem">Sem alerta</option>
+      </select></label>
+      <label class="pick">Ordenar<select id="fOrdem" data-keep="1">
+        <option value="validade">Validade mais próxima</option>
+        <option value="entrada">Entrada mais recente</option>
+        <option value="valor">Maior valor de custo</option>
+        <option value="saldo">Menor saldo restante</option>
+        <option value="produto">Produto (A a Z)</option>
+      </select></label>
+      <div class="filter-meta" id="fMeta"></div>
+    </div>
+
+    <div class="table-card" id="tabela"><div class="state">Carregando lotes...</div></div>
+  </main>
+</div>
+
+<!-- Janela: novo lote -->
+<dialog class="sheet" id="loteDialog" aria-labelledby="loteTitle">
+  <form id="loteForm" method="dialog" novalidate>
+    <div class="sheet-head">
+      <div>
+        <h2 id="loteTitle">Novo lote</h2>
+        <p>Registre a mercadoria que chegou e a data de validade impressa na embalagem.</p>
+      </div>
+      <button type="button" class="sheet-close" data-close aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="field">
+        <label for="lProduto">Produto</label>
+        <select class="input" id="lProduto" required></select>
+        <span class="hint">Não encontrou? <a class="link" href="produtos.html?novo=1">Cadastre o produto primeiro</a>.</span>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="lCodigo">Código do lote</label>
+          <input class="input" id="lCodigo" maxlength="40" placeholder="Opcional">
+        </div>
+        <div class="field">
+          <label for="lQtd">Quantidade recebida</label>
+          <div class="input-suffix"><input class="input" id="lQtd" type="number" min="0" step="0.001" inputmode="decimal" required><span id="lUnidade">un</span></div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="field">
+          <label for="lFabricacao">Fabricação <span class="optional">opcional</span></label>
+          <input class="input" id="lFabricacao" type="date">
+        </div>
+        <div class="field">
+          <label for="lEntrada">Entrada na loja</label>
+          <input class="input" id="lEntrada" type="date" required>
+        </div>
+        <div class="field">
+          <label for="lValidade">Validade</label>
+          <input class="input" id="lValidade" type="date" required>
+        </div>
+      </div>
+      <div class="preview-box" id="lPreview" hidden></div>
+      <p class="form-error" role="alert"></p>
+    </div>
+    <div class="sheet-foot">
+      <button type="button" class="btn btn-quiet" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary" id="lSubmit">Cadastrar lote</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Janela: atualizar saldo -->
+<dialog class="sheet" id="saldoDialog" aria-labelledby="saldoTitle">
+  <form id="saldoForm" method="dialog" novalidate>
+    <div class="sheet-head">
+      <div>
+        <h2 id="saldoTitle">Atualizar saldo</h2>
+        <p id="saldoSub"></p>
+      </div>
+      <button type="button" class="sheet-close" data-close aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="field">
+        <label for="sQtd">Quantidade que ainda está na loja</label>
+        <div class="input-suffix"><input class="input" id="sQtd" type="number" min="0" step="0.001" inputmode="decimal" required><span id="sUnidade">un</span></div>
+        <span class="hint">Use para dar baixa nas vendas normais do dia. Para descarte, use “Registrar perda”.</span>
+      </div>
+      <p class="form-error" role="alert"></p>
+    </div>
+    <div class="sheet-foot">
+      <button type="button" class="btn btn-quiet" data-close>Cancelar</button>
+      <button type="submit" class="btn btn-primary" id="sSubmit">Salvar saldo</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12l6 6L21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Feito!</span>
+</div>
+
+<script src="js/api.js?v=5"></script>
+<script src="js/Auth.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
+<script src="js/lotes.js?v=5"></script>
+</body>
+</html>
